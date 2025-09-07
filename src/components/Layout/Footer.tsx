@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Pacifico } from "next/font/google";
 import { Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
 
 const pacifico = Pacifico({
   weight: "400",
@@ -55,11 +56,17 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* 🔥 Brand */}
           <div>
-            <h1
-              className={`text-2xl font-bold mb-4 text-yellow-600 dark:text-yellow-400 ${pacifico.className}`}
-            >
-              Gate of Africa Magazine
-            </h1>
+            <div className="flex justify-center  lg:justify-start mb-5">
+              <Image
+                src={
+                  "https://res.cloudinary.com/dnfdr35vf/image/upload/v1757224496/LOgo_avec_fond_nhokt0.jpg"
+                }
+                alt="logo"
+                width={250}
+                height={250}
+              />
+            </div>
+
             <p className="text-gray-300 mb-6 leading-relaxed">
               Votre source d&apos;information fiable pour l&apos;actualité
               internationale. Nous couvrons tous les domaines qui façonnent
