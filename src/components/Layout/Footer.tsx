@@ -4,11 +4,6 @@ import { Pacifico } from "next/font/google";
 import { Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
 
-const pacifico = Pacifico({
-  weight: "400",
-  subsets: ["latin"],
-});
-
 // 🔗 Liens dynamiques
 const categories = [
   { href: "/category/politique", label: "Politique" },
