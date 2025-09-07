@@ -1,7 +1,6 @@
 import React from "react";
 import { categories } from "../../data/categories";
 import { mockArticles } from "../../data/mockData";
-import ArticleCard from "../Articles/ArticleCard";
 import * as Icons from "lucide-react";
 import { useGetAllPostQuery } from "@/redux/api/postApi";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";

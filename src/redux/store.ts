@@ -5,6 +5,7 @@ import { authReducer } from "./features/authSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // localStorage par défaut
 import { postAPI } from "./api/postApi";
+import { categoriesAPI } from "./api/categoryApi";
 
 // Combine tous tes reducers
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     authReducer
   ),
   [postAPI.reducerPath]: postAPI.reducer,
+  [categoriesAPI.reducerPath]: categoriesAPI.reducer,
 });
 
 // Création du store avec le reducer combiné et persisté
@@ -25,7 +27,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, //
-    }).concat(postAPI.middleware),
+    }).concat(postAPI.middleware, categoriesAPI.middleware),
 });
 
 // Persistor pour PersistGate
