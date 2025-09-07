@@ -6,6 +6,7 @@ import { useTheme } from "../../hooks/useTheme";
 import { categories } from "../../data/categories";
 import SponsorBanner from "./SponsorBanner";
 import Link from "next/link";
+import Image from "next/image";
 const pacifico = Pacifico({
   weight: "400",
   subsets: ["latin"],
@@ -67,11 +68,14 @@ const Header: React.FC = () => {
                   <Menu className="w-6 h-6" />
                 )}
               </button>
-              <h1
-                className={`text-2xl text-shadow-lg font-bold text-yellow-600 dark:text-yellow-400 ${pacifico.className}`}
-              >
-                Gate of Africa Magazine
-              </h1>
+              <Image
+                src={
+                  "https://res.cloudinary.com/dnfdr35vf/image/upload/v1757224070/log_einw4d.png"
+                }
+                alt="logo"
+                width={100}
+                height={100}
+              />
             </div>
 
             {/* Desktop Navigation */}
