@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       "source.unsplash.com",
       "flagcdn.com",
       "gateofafrica.com",
+      "secure.gravatar.com",
     ],
     remotePatterns: [
       {

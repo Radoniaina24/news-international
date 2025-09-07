@@ -3,8 +3,23 @@ import { categories } from "../../data/categories";
 import { mockArticles } from "../../data/mockData";
 import ArticleCard from "../Articles/ArticleCard";
 import * as Icons from "lucide-react";
+import { useGetAllPostQuery } from "@/redux/api/postApi";
+import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
+import BlogCard from "../Blog/BlogCard";
+import { WPBlogPost } from "@/types/Blog";
 
 const CategoriesSection: React.FC = () => {
+  const { data, isLoading, error } = useGetAllPostQuery({
+    per_page: 4,
+    _embed: true,
+  });
+  const isLoadingState = isLoading
+    ? Array.from({ length: 4 }).map((_, i) => (
+        <BlogCardSkeleton key={`skeleton-${i}`} />
+      ))
+    : data?.map((post: WPBlogPost) => (
+        <BlogCard key={post.id} article={post} />
+      ));
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -68,9 +83,7 @@ const CategoriesSection: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {mockArticles.slice(0, 4).map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
+            {isLoadingState}
           </div>
         </div>
       </div>

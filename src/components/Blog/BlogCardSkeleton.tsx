@@ -70,8 +70,6 @@ const BlogCardSkeleton: React.FC<SkeletonProps> = ({ variant = "default" }) => {
           </div>
           <div className="flex items-center space-x-4">
             <span className="h-4 w-10 rounded bg-gray-300 dark:bg-gray-600" />
-            <span className="h-4 w-8 rounded bg-gray-300 dark:bg-gray-600" />
-            <span className="h-4 w-6 rounded bg-gray-300 dark:bg-gray-600" />
           </div>
         </div>
       </div>

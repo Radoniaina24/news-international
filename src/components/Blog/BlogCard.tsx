@@ -84,7 +84,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             <p className="text-gray-200 mb-4 text-lg leading-relaxed line-clamp-3">
               {excerpt}
             </p>
-            <div className="flex items-center space-x-4 text-sm text-gray-300">
+            <div className="flex items-center space-x-4 text- text-gray-300">
               {author && (
                 <div className="flex items-center">
                   <User className="w-4 h-4 mr-1" />
@@ -155,26 +155,30 @@ const BlogCard: React.FC<BlogCardProps> = ({
           alt={article.title.rendered}
           className="w-full h-48 object-cover transition-transform group-hover:scale-105 duration-300"
         />
-        {categories.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            {categories.map((cat) => (
-              <span
-                key={cat.link}
-                className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded"
-              >
-                {cat.name}
-              </span>
-            ))}
+        <div className="absolute top-4 right-4 flex items-center space-x-2">
+          <div className="flex items-center mb-1">
+            {categories.length > 0 && (
+              <div className="flex lowercase flex-wrap items-center gap-2 mb-2">
+                {categories.map((cat) => (
+                  <span
+                    key={cat.link}
+                    className="text-sm text-white dark:text-white bg-green-500 dark:bg-gray-700 px-2 py-0.5 rounded"
+                  >
+                    {cat.name}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       <div className="p-6">
         <h3
-          className="text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+          className="text-md font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
           dangerouslySetInnerHTML={{ __html: article.title.rendered }}
         />
-        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+        <p className="text-gray-600 text-sm dark:text-gray-300 mb-4 line-clamp-3">
           {excerpt}
         </p>
 
@@ -199,17 +203,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
             </div>
           )}
 
-          <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
             <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-1" />5 min
-            </div>
-            <div className="flex items-center">
-              <Eye className="w-4 h-4 mr-1" />
-              123
-            </div>
-            <div className="flex items-center">
-              <Heart className="w-4 h-4 mr-1" />
-              12
+              <Clock className="w-4 h-4 mr-1" />{" "}
+              <span>il y a {timeAgo(article.date)}</span>
             </div>
           </div>
         </div>
