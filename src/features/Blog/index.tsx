@@ -85,7 +85,7 @@ export default function ArticlesPage() {
         <BlogCard key={post.id} article={post} />
       ));
 
-  console.log(category);
+  // console.log(category);
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Header avec design amélioré */}

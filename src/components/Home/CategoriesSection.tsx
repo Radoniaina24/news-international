@@ -1,5 +1,5 @@
 import React from "react";
-import { categories } from "../../data/categories";
+/* eslint-disable */
 import { mockArticles } from "../../data/mockData";
 import * as Icons from "lucide-react";
 import { useGetAllPostQuery } from "@/redux/api/postApi";
@@ -7,12 +7,15 @@ import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
 import BlogCard from "../Blog/BlogCard";
 import { WPBlogPost } from "@/types/Blog";
 import Link from "next/link";
+import { useCategoriesSpecifique } from "@/hooks/useCategories";
 
 const CategoriesSection: React.FC = () => {
   const { data, isLoading, error } = useGetAllPostQuery({
     per_page: 4,
     _embed: true,
   });
+  const { categories: cat, isLoading: load } = useCategoriesSpecifique();
+  // console.log(cat);
   const isLoadingState = isLoading
     ? Array.from({ length: 4 }).map((_, i) => (
         <BlogCardSkeleton key={`skeleton-${i}`} />
@@ -29,7 +32,7 @@ const CategoriesSection: React.FC = () => {
             Catégories
           </h2>
           <nav className="space-y-2">
-            {categories.map((category) => {
+            {cat.map((category: any) => {
               const IconComponent = Icons[
                 category.icon as keyof typeof Icons
               ] as React.ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -38,7 +41,7 @@ const CategoriesSection: React.FC = () => {
               ).length;
 
               return (
-                <a
+                <Link
                   key={category.id}
                   href={`/category/${category.slug}`}
                   className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
@@ -58,11 +61,11 @@ const CategoriesSection: React.FC = () => {
                         {category.name}
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {articleCount} articles
+                        {category.count} articles
                       </p>
                     </div>
                   </div>
-                </a>
+                </Link>
               );
             })}
           </nav>
