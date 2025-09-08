@@ -16,9 +16,7 @@ interface valueSelectInput {
   value: string | number;
 }
 
-const ITEMS_PER_PAGE = 6;
-
-export default function ArticlesPage() {
+export default function ArticlesPSport() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const getCategoryColor = (category: string) => {
@@ -73,7 +71,7 @@ export default function ArticlesPage() {
       page: currentPage,
       orderby: "date",
       order: sortDate?.value,
-      categories: category?.value,
+      categories: 15,
       _embed: true,
     });
 
@@ -85,7 +83,7 @@ export default function ArticlesPage() {
         <BlogCard key={post.id} article={post} />
       ));
 
-  console.log(category);
+  // console.log(category?.value);
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Header avec design amélioré */}
@@ -93,9 +91,9 @@ export default function ArticlesPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
           <div className="text-center">
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Découvrez nos contenus exclusifs et insights d&apos;experts pour
-              propulser votre business vers le succès
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Toute l&apos;actualité sportive pour vibrer au rythme des
+              compétitions.
             </p>
           </div>
 
@@ -115,18 +113,6 @@ export default function ArticlesPage() {
             {/* Filtres améliorés */}
             <div className="flex flex-col sm:flex-row gap-4 mb-8 items-start sm:items-center justify-between bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
               {/* Categories */}
-              <div className="w-full ">
-                <Select
-                  options={options}
-                  isLoading={categoriesLoading}
-                  placeholder={"Categories"}
-                  value={category}
-                  onChange={(val) => setCategories(val)}
-                  isClearable
-                  className="basic-single text-sm  text-black selectJob"
-                  classNamePrefix="select"
-                />
-              </div>
 
               {/* Sort Dropdown */}
               <div className="w-full">
