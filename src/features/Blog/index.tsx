@@ -1,10 +1,7 @@
 "use client";
-
-import { useState, useMemo, SetStateAction } from "react";
+import Select from "react-select";
+import { useState, useMemo } from "react";
 import {
-  Search,
-  Calendar,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   TrendingUp,
@@ -19,13 +16,13 @@ import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { cn } from "@/lib/utils/classNames";
+import { useCategoriesOptions } from "@/hooks/useCategories";
+import { useGetAllPostWithTransformationResponseQuery } from "@/redux/api/postApi";
+import BlogCardSkeleton from "@/components/Blog/BlogCardSkeleton";
+import { WPBlogPost } from "@/types/Blog";
+import BlogCard from "@/components/Blog/BlogCard";
 
 interface Article {
   id: number;
@@ -39,6 +36,10 @@ interface Article {
   views?: number;
   featured?: boolean;
   trending?: boolean;
+}
+interface valueSelectInput {
+  label: string;
+  value: string | number;
 }
 const categories = [
   "Tous",
@@ -81,12 +82,6 @@ const mockArticles: Article[] = Array.from({ length: 100 }, (_, i) => {
     trending: i % 15 === 0, // tous les 15 articles sont "trending"
   };
 });
-
-const sortOptions = [
-  { label: "Plus récent", value: "date-desc" },
-  { label: "Plus ancien", value: "date-asc" },
-  { label: "Plus populaire", value: "views-desc" },
-];
 
 const ITEMS_PER_PAGE = 6;
 
@@ -184,17 +179,44 @@ export default function ArticlesPage() {
       {label || page}
     </Button>
   );
+  const { options, isLoading: categoriesLoading } = useCategoriesOptions();
 
+  const [category, setCategories] = useState<valueSelectInput | null>();
+  const sortOptions = [
+    { value: "desc", label: "Plus récent" },
+    { value: "asc", label: "Plus ancien" },
+  ];
+  const [sortDate, setSortDate] = useState<valueSelectInput | null>({
+    value: "desc",
+    label: "Plus récent",
+  });
+  // console.log(sortDate?.value);
+  const { data, isLoading, error } =
+    useGetAllPostWithTransformationResponseQuery({
+      per_page: 12,
+      page: currentPage,
+      orderby: "date",
+      order: sortDate?.value,
+      categories: category?.value,
+      _embed: true,
+    });
+
+  const isLoadingState = isLoading
+    ? Array.from({ length: 12 }).map((_, i) => (
+        <BlogCardSkeleton key={`skeleton-${i}`} />
+      ))
+    : data?.posts.map((post: WPBlogPost) => (
+        <BlogCard key={post.id} article={post} />
+      ));
+
+  console.log(data);
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Header avec design amélioré */}
       <header className="bg-white shadow-xl border-b border-gray-100 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-          <div className="text-center mb-10">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-4">
-              Ressources Premium
-            </h1>
+          <div className="text-center">
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Découvrez nos contenus exclusifs et insights d&apos;experts pour
               propulser votre business vers le succès
@@ -204,17 +226,7 @@ export default function ArticlesPage() {
           {/* Barre de recherche améliorée */}
           <div className="max-w-2xl mx-auto relative">
             <div className="relative group">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-blue-500 transition-colors" />
-              {/* <Input
-                type="text"
-                placeholder="Rechercher des articles premium..."
-                value={searchTerm}
-                onChange={(e: { target: { value: SetStateAction<string> } }) =>
-                  setSearchTerm(e.target.value)
-                }
-                className="pl-12 pr-4 py-4 text-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 rounded-2xl shadow-lg transition-all duration-200"
-              /> */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div>
+              {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div> */}
             </div>
           </div>
         </div>
@@ -227,73 +239,42 @@ export default function ArticlesPage() {
             {/* Filtres améliorés */}
             <div className="flex flex-col sm:flex-row gap-4 mb-8 items-start sm:items-center justify-between bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
               {/* Categories */}
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Badge
-                    key={category}
-                    variant={
-                      selectedCategory === category ? "default" : "outline"
-                    }
-                    className={cn(
-                      "cursor-pointer px-4 py-2 text-sm font-medium transition-all duration-200 hover:scale-105 hover:shadow-md",
-                      selectedCategory === category
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
-                        : "text-gray-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 border-gray-300 hover:border-blue-300"
-                    )}
-                    onClick={() => {
-                      setSelectedCategory(category);
-                      setCurrentPage(1);
-                    }}
-                  >
-                    {category}
-                  </Badge>
-                ))}
+              <div className="w-full ">
+                <Select
+                  options={options}
+                  isLoading={categoriesLoading}
+                  placeholder={"Categories"}
+                  value={category}
+                  onChange={(val) => setCategories(val)}
+                  isClearable
+                  className="basic-single text-sm  text-black selectJob"
+                  classNamePrefix="select"
+                />
               </div>
 
               {/* Sort Dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="gap-2 min-w-48 border-2 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
-                  >
-                    <Calendar className="h-4 w-4" />
-                    {
-                      sortOptions.find((option) => option.value === sortBy)
-                        ?.label
-                    }
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-48 border-2 shadow-xl"
-                >
-                  {sortOptions.map((option) => (
-                    <DropdownMenuItem
-                      key={option.value}
-                      onClick={() => setSortBy(option.value)}
-                      className={cn(
-                        "cursor-pointer transition-colors",
-                        sortBy === option.value &&
-                          "bg-gradient-to-r from-blue-50 to-purple-50 text-blue-700 font-medium"
-                      )}
-                    >
-                      {option.label}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="w-full">
+                <Select
+                  options={sortOptions}
+                  isLoading={categoriesLoading}
+                  placeholder={"Date"}
+                  value={sortDate}
+                  onChange={(val) => setSortDate(val)}
+                  isClearable
+                  className="basic-single text-sm  text-black selectJob"
+                  classNamePrefix="select"
+                />
+              </div>
             </div>
 
             {/* Compteur de résultats */}
             <div className="mb-6">
               <p className="text-gray-600 font-medium">
                 <span className="text-blue-600 font-bold">
-                  {filteredAndSortedArticles.length}
+                  {data?.total || 0}
                 </span>{" "}
-                article{filteredAndSortedArticles.length > 1 ? "s" : ""} premium
-                trouvé{filteredAndSortedArticles.length > 1 ? "s" : ""}
+                article{filteredAndSortedArticles.length > 1 ? "s" : ""} trouvé
+                {filteredAndSortedArticles.length > 1 ? "s" : ""}
                 {searchTerm && (
                   <span className="ml-1">
                     pour
@@ -306,110 +287,9 @@ export default function ArticlesPage() {
             </div>
 
             {/* Grille d'articles améliorée */}
-            {paginatedArticles.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                {paginatedArticles.map((article) => (
-                  <Card
-                    key={article.id}
-                    className="group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 bg-white border-0 shadow-lg overflow-hidden rounded-2xl relative"
-                  >
-                    {/* Badges de statut */}
-                    <div className="absolute top-4 left-4 z-10 flex gap-2">
-                      {article.featured && (
-                        <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg">
-                          <Star className="h-3 w-3 mr-1" />
-                          Premium
-                        </Badge>
-                      )}
-                      {article.trending && (
-                        <Badge className="bg-gradient-to-r from-pink-500 to-red-500 text-white shadow-lg">
-                          <TrendingUp className="h-3 w-3 mr-1" />
-                          Tendance
-                        </Badge>
-                      )}
-                    </div>
-
-                    <div className="aspect-video overflow-hidden relative">
-                      <img
-                        src={article.image}
-                        alt={article.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between mb-3">
-                        <Badge
-                          className={cn(
-                            "shadow-md",
-                            getCategoryColor(article.category)
-                          )}
-                        >
-                          {article.category}
-                        </Badge>
-                        <div className="flex items-center gap-3 text-sm text-gray-500">
-                          <div className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            {article.readTime}
-                          </div>
-                          {article.views && (
-                            <div className="flex items-center gap-1">
-                              <Eye className="h-3 w-3" />
-                              {article.views.toLocaleString()}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2 leading-tight">
-                        {article.title}
-                      </h3>
-                    </CardHeader>
-
-                    <CardContent className="pt-0">
-                      <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
-                        {article.excerpt}
-                      </p>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                            {article.author
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </div>
-                          <div>
-                            <p className="font-medium text-gray-900 text-sm">
-                              {article.author}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {formatDate(article.date)}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-8 w-8 p-0 hover:bg-blue-50"
-                          >
-                            <Bookmark className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-8 w-8 p-0 hover:bg-blue-50"
-                          >
-                            <Share2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+            {isLoading || (data?.total && data.total > 0) ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                {isLoadingState}
               </div>
             ) : (
               <div className="text-center py-20 bg-white rounded-2xl shadow-lg">
@@ -424,7 +304,7 @@ export default function ArticlesPage() {
                 <Button
                   onClick={() => {
                     setSearchTerm("");
-                    setSelectedCategory("Tous");
+                    setCategories(null);
                     setCurrentPage(1);
                   }}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
@@ -435,7 +315,7 @@ export default function ArticlesPage() {
             )}
 
             {/* Pagination améliorée */}
-            {totalPages > 1 && (
+            {data?.totalPages && data?.totalPages > 0 ? (
               <div className="flex items-center justify-center gap-2 mt-12 bg-white p-6 rounded-2xl shadow-lg">
                 <Button
                   variant="outline"
@@ -458,16 +338,16 @@ export default function ArticlesPage() {
                     </>
                   )}
 
-                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  {Array.from({ length: data?.totalPages }, (_, i) => i + 1)
                     .filter((page) => Math.abs(page - currentPage) <= 1)
                     .map((page) => renderPaginationButton(page))}
 
-                  {currentPage < totalPages - 2 && (
+                  {currentPage < data?.totalPages - 2 && (
                     <>
-                      {currentPage < totalPages - 3 && (
+                      {currentPage < data?.totalPages - 3 && (
                         <span className="px-2 py-1 text-gray-400">...</span>
                       )}
-                      {renderPaginationButton(totalPages)}
+                      {renderPaginationButton(data?.totalPages)}
                     </>
                   )}
                 </div>
@@ -476,22 +356,24 @@ export default function ArticlesPage() {
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    goToPage(Math.min(totalPages, currentPage + 1))
+                    goToPage(Math.min(data?.totalPages, currentPage + 1))
                   }
-                  disabled={currentPage === totalPages}
+                  disabled={currentPage === data?.totalPages}
                   className="gap-1 border-2 hover:border-blue-300 hover:bg-blue-50"
                 >
                   Suivant
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
+            ) : (
+              ""
             )}
           </div>
 
           {/* Sidebar avec articles recommandés */}
-          <div className="lg:w-80 space-y-6">
-            {/* Articles en vedette */}
-            <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
+          {/* <div className="lg:w-80 space-y-6"> */}
+          {/* Articles en vedette */}
+          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
                 <h3 className="text-lg font-bold flex items-center gap-2">
                   <Star className="h-5 w-5" />
@@ -533,10 +415,10 @@ export default function ArticlesPage() {
                   </div>
                 ))}
               </CardContent>
-            </Card>
+            </Card> */}
 
-            {/* Articles tendance */}
-            <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
+          {/* Articles tendance */}
+          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-pink-500 to-red-500 text-white">
                 <h3 className="text-lg font-bold flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
@@ -574,10 +456,10 @@ export default function ArticlesPage() {
                   </div>
                 ))}
               </CardContent>
-            </Card>
+            </Card> */}
 
-            {/* Articles populaires */}
-            <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
+          {/* Articles populaires */}
+          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
               <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
                 <h3 className="text-lg font-bold flex items-center gap-2">
                   <Eye className="h-5 w-5" />
@@ -610,10 +492,10 @@ export default function ArticlesPage() {
                   </div>
                 ))}
               </CardContent>
-            </Card>
+            </Card> */}
 
-            {/* Call to Action */}
-            <Card className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white shadow-xl border-0 rounded-2xl overflow-hidden">
+          {/* Call to Action */}
+          {/* <Card className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white shadow-xl border-0 rounded-2xl overflow-hidden">
               <CardContent className="p-6 text-center">
                 <div className="text-4xl mb-4">🚀</div>
                 <h3 className="text-lg font-bold mb-2">Accès Premium</h3>
@@ -625,28 +507,10 @@ export default function ArticlesPage() {
                   Découvrir Premium
                 </Button>
               </CardContent>
-            </Card>
-          </div>
+            </Card> */}
+          {/* </div> */}
         </div>
       </main>
-
-      {/* Footer amélioré */}
-      <footer className="bg-white border-t mt-20 shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <Star className="h-4 w-4" />
-              Excellence & Innovation
-            </div>
-            <p className="text-gray-600 font-medium">
-              &copy; 2024 Centre de Ressources Premium. Tous droits réservés.
-            </p>
-            <p className="text-gray-500 text-sm mt-2">
-              Votre partenaire de confiance pour l&apos;excellence digitale
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

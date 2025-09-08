@@ -6,6 +6,7 @@ import { useGetAllPostQuery } from "@/redux/api/postApi";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
 import BlogCard from "../Blog/BlogCard";
 import { WPBlogPost } from "@/types/Blog";
+import Link from "next/link";
 
 const CategoriesSection: React.FC = () => {
   const { data, isLoading, error } = useGetAllPostQuery({
@@ -73,12 +74,12 @@ const CategoriesSection: React.FC = () => {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
               Articles Récents
             </h2>
-            <a
-              href="/articles"
+            <Link
+              href="/blog"
               className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
             >
               Voir tout
-            </a>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

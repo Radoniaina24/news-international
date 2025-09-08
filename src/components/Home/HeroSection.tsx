@@ -3,8 +3,7 @@ import { useGetAllPostQuery } from "@/redux/api/postApi";
 import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "../Blog/BlogCard";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
-// import { useCategoriesOptions } from "@/hooks/useCategories";
-// import Select from "react-select";
+
 const HeroSection: React.FC = () => {
   const { data, isLoading, error } = useGetAllPostQuery({
     sticky: true,
@@ -16,21 +15,8 @@ const HeroSection: React.FC = () => {
     order: "desc",
     _embed: true,
   });
-  // const { options, isLoading: categories } = useCategoriesOptions();
-  // // console.log(options);
-  // const [category, setCategories] = useState<null | string>("");
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* <Select
-        options={options}
-        isLoading={isLoading}
-        placeholder={"Sector"}
-        value={category}
-        onChange={(val) => setCategories(val)}
-        isClearable
-        className="basic-single text-sm  text-black selectJob"
-        classNamePrefix="select"
-      /> */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Featured Article */}
         {isLoading ? (

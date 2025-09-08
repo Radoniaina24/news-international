@@ -45,4 +45,5 @@ export interface WPBlogPost {
   _embedded?: {
     author?: WPAuthor[];
   };
+  total?: string | number;
 }
