@@ -140,7 +140,7 @@ export default function ArticlesPolitique() {
           {/* Sidebar avec informations */}
           <div className="xl:order-2 xl:col-span-1 space-y-6">
             {/* Filtres avancés */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 sticky top-8">
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 sticky top-36">
               <div className="flex items-center mb-6">
                 <Filter className="w-5 h-5 text-indigo-600 mr-2" />
                 <h3 className="text-lg font-bold text-gray-900">Filtres</h3>
