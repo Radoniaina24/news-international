@@ -4,28 +4,18 @@
 import Select from "react-select";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Search,
-  Filter,
-  TrendingUp,
-  Clock,
-  Globe,
-  Users,
-  Calendar,
-  Tag,
-  Newspaper,
-} from "lucide-react";
-
-import { cn } from "@/lib/utils/classNames";
+import { Filter, Globe, Newspaper } from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
 import { useGetAllPostWithTransformationResponseQuery } from "@/redux/api/postApi";
 import BlogCardSkeleton from "@/components/Blog/BlogCardSkeleton";
 import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "@/components/Blog/BlogCard";
 import Pagination from "@/components/Pagination";
-import Image from "next/image";
+
 import { FeaturedPostSkeleton } from "@/components/Blog/FeaturedPostSkeleton";
 import { FeaturedPost } from "@/components/Blog/FeaturedPost";
+import { usePostsByPeriod } from "@/hooks/usePostsByPeriod";
+import { getDateRangeForStrictPeriod } from "@/lib/utils/getDateRangeForPeriod";
 
 interface valueSelectInput {
   label: string;
@@ -68,7 +58,9 @@ export default function ArticlesPolitique() {
     value: "desc",
     label: "Plus récent",
   });
+  const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
 
+  const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
   const { data, isLoading, error } =
     useGetAllPostWithTransformationResponseQuery({
       per_page: 12,
@@ -76,6 +68,8 @@ export default function ArticlesPolitique() {
       orderby: "date",
       order: sortDate?.value,
       categories: [4, 14],
+      after: dateRange.after,
+      before: dateRange.before,
       _embed: true,
     });
 
@@ -86,17 +80,6 @@ export default function ArticlesPolitique() {
     : data?.posts.map((post: WPBlogPost) => (
         <BlogCard key={post.id} article={post} />
       ));
-
-  const featuredTopics = [
-    "Élections",
-    "Réformes",
-    "Diplomatie",
-    "Économie politique",
-    "Société",
-    "Débats publics",
-    "Institutions",
-    "Europe",
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -174,20 +157,18 @@ export default function ArticlesPolitique() {
                     Période
                   </label>
                   <div className="space-y-2">
-                    {[
-                      "Aujourd'hui",
-                      "Cette semaine",
-                      "Ce mois",
-                      "Cette année",
-                    ].map((period) => (
-                      <label key={period} className="flex items-center">
+                    {periods.map((period) => (
+                      <label key={period.value} className="flex items-center">
                         <input
                           type="radio"
                           name="period"
+                          value={period.value}
+                          checked={selectedPeriod === period.value}
+                          onChange={(e) => handlePeriodChange(e.target.value)}
                           className="text-indigo-600"
                         />
                         <span className="ml-2 text-sm text-gray-700">
-                          {period}
+                          {period.label}
                         </span>
                       </label>
                     ))}
