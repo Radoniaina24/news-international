@@ -6,7 +6,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, Globe, Newspaper } from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
-import { useGetAllPostWithTransformationResponseQuery } from "@/redux/api/postApi";
+import {
+  useGetAllPostWithTransformationResponseQuery,
+  useGetOneRecentPostQuery,
+} from "@/redux/api/postApi";
 import BlogCardSkeleton from "@/components/Blog/BlogCardSkeleton";
 import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "@/components/Blog/BlogCard";
@@ -59,20 +62,27 @@ export default function ArticlesPolitique() {
     label: "Plus récent",
   });
   const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
-
+  const [search, setSearch] = useState<string>("");
   const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
-  const { data, isLoading, error } =
-    useGetAllPostWithTransformationResponseQuery({
-      per_page: 12,
-      page: currentPage,
-      orderby: "date",
-      order: sortDate?.value,
-      categories: [4, 14],
-      after: dateRange.after,
-      before: dateRange.before,
-      _embed: true,
-    });
+  const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
+    per_page: 12,
+    page: currentPage,
+    orderby: "date",
+    order: sortDate?.value,
+    categories: [4, 14],
+    after: dateRange.after,
+    before: dateRange.before,
+    _embed: true,
+  });
 
+  const { data: posts, isLoading: loading } = useGetOneRecentPostQuery({
+    per_page: 1,
+    orderby: "date",
+    order: "desc",
+    categories: [4, 14],
+    _embed: true,
+  });
+  // console.log(posts);
   const isLoadingState = isLoading
     ? Array.from({ length: 12 }).map((_, i) => (
         <BlogCardSkeleton key={`skeleton-${i}`} />
@@ -189,25 +199,12 @@ export default function ArticlesPolitique() {
                     <p className="text-lg font-bold text-gray-900">
                       {data?.total || 0} articles politiques
                     </p>
-                    {/* <p className="text-gray-600">
-                      Mis à jour • {new Date().toLocaleDateString("fr-FR")}
-                    </p> */}
                   </div>
                 </div>
-                {/* <div className="flex items-center space-x-4 text-sm text-gray-500">
-                  <span className="flex items-center">
-                    <Clock className="w-4 h-4 mr-1" />
-                    Dernière MAJ
-                  </span>
-                </div> */}
               </div>
             </div>
 
-            {isLoading ? (
-              <FeaturedPostSkeleton />
-            ) : (
-              <FeaturedPost data={data} />
-            )}
+            {loading ? <FeaturedPostSkeleton /> : <FeaturedPost data={posts} />}
 
             {/* Grille d'articles */}
             {isLoading || (data?.total && data.total > 0) ? (

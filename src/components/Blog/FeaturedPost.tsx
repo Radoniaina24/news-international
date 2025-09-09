@@ -17,10 +17,10 @@ import { Button } from "@/components/ui/button";
 // }
 
 export function FeaturedPost({ data }: any) {
-  if (!data?.posts || data.posts.length === 0) return null;
-
-  const post = data.posts[0];
-
+  if (!data) {
+    return null;
+  }
+  const post = data[0];
   return (
     <div className="mb-12 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
       {/* Header */}

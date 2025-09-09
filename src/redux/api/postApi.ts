@@ -54,10 +54,22 @@ export const postAPI = createApi({
       },
       providesTags: ["posts"],
     }),
+
+    getOneRecentPost: builder.query({
+      query: (params) => {
+        return {
+          url: `/posts`,
+          method: "GET",
+          params,
+        };
+      },
+      providesTags: ["posts"],
+    }),
   }),
 });
 
 export const {
   useGetAllPostQuery,
   useGetAllPostWithTransformationResponseQuery,
+  useGetOneRecentPostQuery,
 } = postAPI;
