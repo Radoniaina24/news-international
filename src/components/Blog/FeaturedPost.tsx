@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 //   };
 // }
 
-export function FeaturedPost({ data }: any) {
+export function FeaturedPost({ data, category = "Politique" }: any) {
   if (!data) {
     return null;
   }
@@ -39,7 +39,7 @@ export function FeaturedPost({ data }: any) {
             <div className="flex items-center mb-4">
               <Tag className="w-4 h-4 text-indigo-600 mr-2" />
               <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
-                Politique
+                {category}
               </span>
             </div>
 

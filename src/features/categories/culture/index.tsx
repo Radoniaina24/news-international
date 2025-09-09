@@ -1,25 +1,44 @@
 "use client";
+
+/* eslint-disable */
 import Select from "react-select";
-import { useState } from "react";
-
+import { SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-
-import { cn } from "@/lib/utils/classNames";
+import {
+  Filter,
+  Globe,
+  Newspaper,
+  Palette,
+  Search,
+  TrendingUp,
+  X,
+} from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
-import { useGetAllPostWithTransformationResponseQuery } from "@/redux/api/postApi";
+import {
+  useGetAllPostWithTransformationResponseQuery,
+  useGetOneRecentPostQuery,
+} from "@/redux/api/postApi";
 import BlogCardSkeleton from "@/components/Blog/BlogCardSkeleton";
 import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "@/components/Blog/BlogCard";
 import Pagination from "@/components/Pagination";
+
+import { FeaturedPostSkeleton } from "@/components/Blog/FeaturedPostSkeleton";
+import { FeaturedPost } from "@/components/Blog/FeaturedPost";
+import { usePostsByPeriod } from "@/hooks/usePostsByPeriod";
+import { getDateRangeForStrictPeriod } from "@/lib/utils/getDateRangeForPeriod";
+import { Input } from "@/components/ui/input";
 
 interface valueSelectInput {
   label: string;
   value: string | number;
 }
 
-export default function ArticlesCulture() {
+export default function ArticlesPolitique() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState("all");
+
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       Technologie: "bg-gradient-to-r from-blue-500 to-cyan-500 text-white",
@@ -27,6 +46,8 @@ export default function ArticlesCulture() {
       Business: "bg-gradient-to-r from-green-500 to-emerald-500 text-white",
       Marketing: "bg-gradient-to-r from-orange-500 to-red-500 text-white",
       Sécurité: "bg-gradient-to-r from-red-500 to-rose-500 text-white",
+      Politique: "bg-gradient-to-r from-indigo-600 to-blue-600 text-white",
+      Géopolitique: "bg-gradient-to-r from-red-600 to-orange-600 text-white",
     };
     return (
       colors[category] ||
@@ -38,22 +59,6 @@ export default function ArticlesCulture() {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const renderPaginationButton = (page: number, label?: string) => (
-    <Button
-      key={page}
-      variant={currentPage === page ? "default" : "outline"}
-      size="sm"
-      onClick={() => goToPage(page)}
-      className={cn(
-        "min-w-10 transition-all duration-200",
-        currentPage === page &&
-          "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
-      )}
-    >
-      {label || page}
-    </Button>
-  );
   const { options, isLoading: categoriesLoading } = useCategoriesOptions();
 
   const [category, setCategories] = useState<valueSelectInput | null>();
@@ -65,16 +70,41 @@ export default function ArticlesCulture() {
     value: "desc",
     label: "Plus récent",
   });
-  // console.log(sortDate?.value);
+
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setCategories(null);
+    setSortDate({ value: "desc", label: "Plus récent" });
+    setCurrentPage(1);
+    handlePeriodChange("year");
+  };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortDate, category]);
+  const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
+  const [search, setSearch] = useState<string>("");
+  const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
   const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
     per_page: 12,
     page: currentPage,
     orderby: "date",
     order: sortDate?.value,
     categories: 33,
+    after: dateRange.after,
+    before: dateRange.before,
+    search: searchTerm || undefined,
     _embed: true,
   });
 
+  const { data: posts, isLoading: loading } = useGetOneRecentPostQuery({
+    per_page: 1,
+    orderby: "date",
+    order: "desc",
+    categories: 33,
+    _embed: true,
+  });
+  // console.log(posts);
   const isLoadingState = isLoading
     ? Array.from({ length: 12 }).map((_, i) => (
         <BlogCardSkeleton key={`skeleton-${i}`} />
@@ -83,246 +113,190 @@ export default function ArticlesCulture() {
         <BlogCard key={post.id} article={post} />
       ));
 
-  // console.log(category?.value);
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Header avec design amélioré */}
-      <header className="bg-white shadow-xl border-b border-gray-100 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-          <div className="text-center">
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Arts, cinéma, musique, littérature : découvrez les tendances et
-              les talents d&apos;aujourd&apos;hui
+      {/* Hero Section Enrichi */}
+      <header className="relative bg-amber-50 shadow-lg border-b border-amber-200 overflow-hidden">
+        {/* Background Pattern culturel */}
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-400/5 via-rose-500/5 to-violet-600/5"></div>
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23b45309' fill-opacity='0.1'/%3E%3C/svg%3E")`,
+          }}
+        ></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center px-4 py-2 bg-amber-100 text-amber-800 rounded-full text-sm font-medium mb-6">
+              <Palette className="w-4 h-4 mr-2" />
+              Arts & Culture
+            </div>
+
+            <h1 className="text-2xl font-serif font-bold text-amber-900 mb-4 leading-tight">
+              <span className="bg-gradient-to-r from-amber-600 to-rose-700 bg-clip-text text-transparent">
+                L'Actualité
+              </span>
+              <br />
+              <span className="text-amber-900">Culturelle & Artistique</span>
+            </h1>
+
+            <p className="text-lg text-amber-800/90 max-w-4xl mx-auto leading-relaxed mb-8 font-serif">
+              Découvrez les expositions, critiques littéraires, spectacles
+              vivants et tendances artistiques. Plongez dans l'univers de la
+              création contemporaine et du patrimoine culturel.
             </p>
           </div>
 
-          {/* Barre de recherche améliorée */}
-          <div className="max-w-2xl mx-auto relative">
-            <div className="relative group">
-              {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div> */}
-            </div>
+          {/* Élément décoratif culturel */}
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <div className="w-2 h-2 rounded-full bg-amber-400"></div>
+            <div className="w-2 h-2 rounded-full bg-rose-400"></div>
+            <div className="w-2 h-2 rounded-full bg-violet-400"></div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Contenu principal */}
-          <div className="flex-1">
-            {/* Filtres améliorés */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8 items-start sm:items-center justify-between bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-              {/* Categories */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+          {/* Sidebar avec informations */}
+          <div className="xl:order-2 xl:col-span-1 space-y-6">
+            {/* Filtres avancés */}
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 sticky top-36">
+              <div className="flex items-center mb-6">
+                <Filter className="w-5 h-5 text-indigo-600 mr-2" />
+                <h3 className="text-lg font-bold text-gray-900">Filtres</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    type="text"
+                    placeholder="Rechercher des articles..."
+                    value={searchTerm}
+                    onChange={(e: {
+                      target: { value: SetStateAction<string> };
+                    }) => setSearchTerm(e.target.value)}
+                    className="pl-9 pr-10 py-2.5 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Trier par
+                  </label>
+                  <Select
+                    options={sortOptions}
+                    isLoading={categoriesLoading}
+                    placeholder="Choisir un tri"
+                    value={sortDate}
+                    onChange={(val) => setSortDate(val)}
+                    isClearable
+                    className="text-sm"
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        borderRadius: "12px",
+                        borderColor: "#e5e7eb",
+                        "&:hover": { borderColor: "#6366f1" },
+                      }),
+                    }}
+                  />
+                </div>
 
-              {/* Sort Dropdown */}
-              <div className="w-full">
-                <Select
-                  options={sortOptions}
-                  isLoading={categoriesLoading}
-                  placeholder={"Date"}
-                  value={sortDate}
-                  onChange={(val) => setSortDate(val)}
-                  isClearable
-                  className="basic-single text-sm  text-black selectJob"
-                  classNamePrefix="select"
-                />
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Période
+                  </label>
+                  <div className="space-y-2">
+                    {periods.map((period) => (
+                      <label key={period.value} className="flex items-center">
+                        <input
+                          type="radio"
+                          name="period"
+                          value={period.value}
+                          checked={selectedPeriod === period.value}
+                          onChange={(e) => handlePeriodChange(e.target.value)}
+                          className="text-indigo-600"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">
+                          {period.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contenu principal */}
+          <div className="xl:order-1 xl:col-span-3">
+            {/* Compteur de résultats enrichi */}
+            <div className="mb-8 bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Newspaper className="w-5 h-5 text-indigo-600 mr-3" />
+                  <div>
+                    <p className="text-lg font-bold text-gray-900">
+                      {data?.total || 0}{" "}
+                      {data?.total && data.total > 1
+                        ? "articles culturels"
+                        : "article culturel"}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Compteur de résultats */}
-            <div className="mb-6">
-              <p className="text-gray-600 font-medium">
-                <span className="text-blue-600 font-bold">
-                  {data?.total || 0}
-                </span>{" "}
-                article{data?.total && data?.total > 1 ? "s" : ""} trouvé
-                {data?.total && data?.total > 1 ? "s" : ""}
-                {searchTerm && (
-                  <span className="ml-1">
-                    pour
-                    <span className="font-bold text-gray-900">
-                      {searchTerm}
-                    </span>
-                  </span>
-                )}
-              </p>
-            </div>
+            {loading ? (
+              <FeaturedPostSkeleton />
+            ) : (
+              <FeaturedPost category="Culture" data={posts} />
+            )}
 
-            {/* Grille d'articles améliorée */}
+            {/* Grille d'articles */}
             {isLoading || (data?.total && data.total > 0) ? (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 {isLoadingState}
               </div>
             ) : (
-              <div className="text-center py-20 bg-white rounded-2xl shadow-lg">
-                <div className="text-8xl mb-6">🔍</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              <div className="text-center py-20 bg-white rounded-2xl shadow-lg border border-gray-100">
+                <div className="text-8xl mb-6">📰</div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">
                   Aucun article trouvé
                 </h3>
-                <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                  Essayez de modifier vos critères de recherche ou explorez nos
-                  catégories populaires.
+                <p className="text-gray-600 mb-8 max-w-md mx-auto text-lg">
+                  Aucun article ne correspond à vos critères de recherche
+                  actuels.
                 </p>
                 <Button
-                  onClick={() => {
-                    setSearchTerm("");
-                    setCategories(null);
-                    setCurrentPage(1);
-                  }}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+                  onClick={handleClearFilters}
+                  className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-lg rounded-xl text-lg px-8 py-3"
                 >
-                  Réinitialiser les filtres
+                  Renitialiser le filtre
                 </Button>
               </div>
             )}
 
-            {/* Pagination améliorée */}
-            <Pagination
-              totalPages={data?.totalPages as number}
-              currentPage={currentPage}
-              onPageChange={goToPage}
-            />
+            {/* Pagination */}
+            {data?.totalPages && data.totalPages > 1 && (
+              <div className="mt-12">
+                <Pagination
+                  totalPages={data.totalPages}
+                  currentPage={currentPage}
+                  onPageChange={goToPage}
+                />
+              </div>
+            )}
           </div>
-
-          {/* Sidebar avec articles recommandés */}
-          {/* <div className="lg:w-80 space-y-6"> */}
-          {/* Articles en vedette */}
-          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  <Star className="h-5 w-5" />
-                  Articles Premium
-                </h3>
-              </CardHeader>
-              <CardContent className="p-0">
-                {featuredArticles.map((article, index) => (
-                  <div
-                    key={article.id}
-                    className={cn(
-                      "p-4 hover:bg-blue-50 cursor-pointer transition-colors duration-200 group",
-                      index !== featuredArticles.length - 1 &&
-                        "border-b border-gray-100"
-                    )}
-                  >
-                    <div className="flex gap-3">
-                      <img
-                        src={article.image}
-                        alt={article.title}
-                        className="w-16 h-16 object-cover rounded-lg group-hover:scale-105 transition-transform duration-200"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                          {article.title}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
-                          <Clock className="h-3 w-3" />
-                          {article.readTime}
-                          {article.views && (
-                            <>
-                              <Eye className="h-3 w-3 ml-1" />
-                              {article.views.toLocaleString()}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card> */}
-
-          {/* Articles tendance */}
-          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-pink-500 to-red-500 text-white">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  Tendances
-                </h3>
-              </CardHeader>
-              <CardContent className="p-0">
-                {trendingArticles.map((article, index) => (
-                  <div
-                    key={article.id}
-                    className={cn(
-                      "p-4 hover:bg-pink-50 cursor-pointer transition-colors duration-200 group",
-                      index !== trendingArticles.length - 1 &&
-                        "border-b border-gray-100"
-                    )}
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                        {index + 1}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 line-clamp-2 group-hover:text-pink-600 transition-colors">
-                          {article.title}
-                        </h4>
-                        <Badge
-                          className={cn(
-                            "mt-2 text-xs",
-                            getCategoryColor(article.category)
-                          )}
-                        >
-                          {article.category}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card> */}
-
-          {/* Articles populaires */}
-          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  <Eye className="h-5 w-5" />
-                  Plus Populaires
-                </h3>
-              </CardHeader>
-              <CardContent className="p-0">
-                {popularArticles.map((article, index) => (
-                  <div
-                    key={article.id}
-                    className={cn(
-                      "p-4 hover:bg-green-50 cursor-pointer transition-colors duration-200 group",
-                      index !== popularArticles.length - 1 &&
-                        "border-b border-gray-100"
-                    )}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 group-hover:text-green-600 transition-colors">
-                          {article.title}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                          <span>{article.author}</span>
-                          <span>•</span>
-                          <span>{article.views?.toLocaleString()} vues</span>
-                        </div>
-                      </div>
-                      <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-500 transition-colors" />
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card> */}
-
-          {/* Call to Action */}
-          {/* <Card className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardContent className="p-6 text-center">
-                <div className="text-4xl mb-4">🚀</div>
-                <h3 className="text-lg font-bold mb-2">Accès Premium</h3>
-                <p className="text-blue-100 text-sm mb-4">
-                  Débloquez tous nos contenus exclusifs et boostez votre
-                  expertise
-                </p>
-                <Button className="bg-white text-blue-600 hover:bg-blue-50 font-semibold shadow-lg">
-                  Découvrir Premium
-                </Button>
-              </CardContent>
-            </Card> */}
-          {/* </div> */}
         </div>
       </main>
     </div>

@@ -2,9 +2,9 @@
 
 /* eslint-disable */
 import Select from "react-select";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Filter, Globe, Newspaper } from "lucide-react";
+import { Filter, Globe, Newspaper, Search, X } from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
 import {
   useGetAllPostWithTransformationResponseQuery,
@@ -19,6 +19,7 @@ import { FeaturedPostSkeleton } from "@/components/Blog/FeaturedPostSkeleton";
 import { FeaturedPost } from "@/components/Blog/FeaturedPost";
 import { usePostsByPeriod } from "@/hooks/usePostsByPeriod";
 import { getDateRangeForStrictPeriod } from "@/lib/utils/getDateRangeForPeriod";
+import { Input } from "@/components/ui/input";
 
 interface valueSelectInput {
   label: string;
@@ -62,6 +63,14 @@ export default function ArticlesPolitique() {
     label: "Plus récent",
   });
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setCategories(null);
+    setSortDate({ value: "desc", label: "Plus récent" });
+    setCurrentPage(1);
+    handlePeriodChange("year");
+  };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [sortDate, category]);
@@ -76,6 +85,7 @@ export default function ArticlesPolitique() {
     categories: [4, 14],
     after: dateRange.after,
     before: dateRange.before,
+    search: searchTerm || undefined,
     _embed: true,
   });
 
@@ -108,14 +118,14 @@ export default function ArticlesPolitique() {
           }}
         ></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
           <div className="text-center mb-12">
             <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-6">
               <Globe className="w-4 h-4 mr-2" />
               Actualité Politique & Géopolitique
             </div>
 
-            <h1 className="text-5xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
               <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
                 L'Actualité
               </span>
@@ -143,6 +153,26 @@ export default function ArticlesPolitique() {
                 <h3 className="text-lg font-bold text-gray-900">Filtres</h3>
               </div>
               <div className="space-y-4">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    type="text"
+                    placeholder="Rechercher des articles..."
+                    value={searchTerm}
+                    onChange={(e: {
+                      target: { value: SetStateAction<string> };
+                    }) => setSearchTerm(e.target.value)}
+                    className="pl-9 pr-10 py-2.5 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Trier par
@@ -201,7 +231,10 @@ export default function ArticlesPolitique() {
                   <Newspaper className="w-5 h-5 text-indigo-600 mr-3" />
                   <div>
                     <p className="text-lg font-bold text-gray-900">
-                      {data?.total || 0} articles politiques
+                      {data?.total || 0}{" "}
+                      {data?.total && data.total > 1
+                        ? "articles politiques"
+                        : "article politique"}
                     </p>
                   </div>
                 </div>
@@ -226,14 +259,10 @@ export default function ArticlesPolitique() {
                   actuels.
                 </p>
                 <Button
-                  onClick={() => {
-                    setSearchTerm("");
-                    setCategories(null);
-                    setCurrentPage(1);
-                  }}
+                  onClick={handleClearFilters}
                   className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-lg rounded-xl text-lg px-8 py-3"
                 >
-                  Voir tous les articles
+                  Renitialiser le filtre
                 </Button>
               </div>
             )}
