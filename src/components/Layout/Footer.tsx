@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Pacifico } from "next/font/google";
+
 import { Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
 

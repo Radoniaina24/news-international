@@ -5,7 +5,7 @@ import BlogCard from "../Blog/BlogCard";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
 
 const HeroSection: React.FC = () => {
-  const { data, isLoading, error } = useGetAllPostQuery({
+  const { data, isLoading } = useGetAllPostQuery({
     sticky: true,
     _embed: true,
   });

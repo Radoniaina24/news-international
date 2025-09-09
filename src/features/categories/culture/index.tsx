@@ -1,7 +1,7 @@
 "use client";
 import Select from "react-select";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils/classNames";
@@ -66,15 +66,14 @@ export default function ArticlesCulture() {
     label: "Plus récent",
   });
   // console.log(sortDate?.value);
-  const { data, isLoading, error } =
-    useGetAllPostWithTransformationResponseQuery({
-      per_page: 12,
-      page: currentPage,
-      orderby: "date",
-      order: sortDate?.value,
-      categories: 33,
-      _embed: true,
-    });
+  const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
+    per_page: 12,
+    page: currentPage,
+    orderby: "date",
+    order: sortDate?.value,
+    categories: 33,
+    _embed: true,
+  });
 
   const isLoadingState = isLoading
     ? Array.from({ length: 12 }).map((_, i) => (

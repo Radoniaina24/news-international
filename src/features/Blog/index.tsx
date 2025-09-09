@@ -1,10 +1,8 @@
 "use client";
 import Select from "react-select";
-import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 
-import { cn } from "@/lib/utils/classNames";
 import { useCategoriesOptions } from "@/hooks/useCategories";
 import { useGetAllPostWithTransformationResponseQuery } from "@/redux/api/postApi";
 import BlogCardSkeleton from "@/components/Blog/BlogCardSkeleton";
@@ -12,16 +10,20 @@ import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "@/components/Blog/BlogCard";
 import Pagination from "@/components/Pagination";
 
+import { Search, X, Filter, Grid, List, ArrowUpDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
+
 interface valueSelectInput {
   label: string;
   value: string | number;
 }
 
-const ITEMS_PER_PAGE = 6;
-
 export default function ArticlesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       Technologie: "bg-gradient-to-r from-blue-500 to-cyan-500 text-white",
@@ -32,7 +34,7 @@ export default function ArticlesPage() {
     };
     return (
       colors[category] ||
-      "bg-gradient-to-r from-gray-500 to-gray-600 text-white"
+      "bg-gradient-to-r from-slate-500 to-slate-600 text-white"
     );
   };
 
@@ -41,21 +43,6 @@ export default function ArticlesPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const renderPaginationButton = (page: number, label?: string) => (
-    <Button
-      key={page}
-      variant={currentPage === page ? "default" : "outline"}
-      size="sm"
-      onClick={() => goToPage(page)}
-      className={cn(
-        "min-w-10 transition-all duration-200",
-        currentPage === page &&
-          "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
-      )}
-    >
-      {label || page}
-    </Button>
-  );
   const { options, isLoading: categoriesLoading } = useCategoriesOptions();
 
   const [category, setCategories] = useState<valueSelectInput | null>();
@@ -67,16 +54,16 @@ export default function ArticlesPage() {
     value: "desc",
     label: "Plus récent",
   });
-  // console.log(sortDate?.value);
-  const { data, isLoading, error } =
-    useGetAllPostWithTransformationResponseQuery({
-      per_page: 12,
-      page: currentPage,
-      orderby: "date",
-      order: sortDate?.value,
-      categories: category?.value,
-      _embed: true,
-    });
+
+  const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
+    per_page: 12,
+    page: currentPage,
+    orderby: "date",
+    order: sortDate?.value,
+    categories: category?.value,
+    _embed: true,
+    search: searchTerm || undefined,
+  });
 
   const isLoadingState = isLoading
     ? Array.from({ length: 12 }).map((_, i) => (
@@ -86,257 +73,396 @@ export default function ArticlesPage() {
         <BlogCard key={post.id} article={post} />
       ));
 
-  // console.log(category);
+  // Réinitialiser la pagination quand les filtres changent
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, category, sortDate]);
+
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setCategories(null);
+    setSortDate({ value: "desc", label: "Plus récent" });
+    setCurrentPage(1);
+  };
+
+  const hasActiveFilters =
+    searchTerm || category || (sortDate && sortDate.value !== "desc");
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      {/* Header avec design amélioré */}
-      <header className="bg-white shadow-xl border-b border-gray-100 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-          <div className="text-center">
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Découvrez nos contenus exclusifs et insights d&apos;experts pour
-              propulser votre business vers le succès
-            </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header professionnel avec design moderne */}
+      <header className="bg-white border-b border-gray-200 sticky -top-0   sm:-top-10 md:-top-14 z-40">
+        <div className="max-w-7xl mx-auto">
+          {/* Section titre */}
+          <div className="px-4 sm:px-6 lg:px-8 py-5 sm:py-12">
+            <div className="max-w-4xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-1 h-8 bg-gradient-to-b from-blue-600 to-blue-800 rounded-full"></div>
+                <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-gray-900 tracking-tight">
+                  Blog & Actualités
+                </h1>
+              </div>
+              <p className=" text-md text-gray-600 leading-relaxed max-w-2xl">
+                Découvrez nos conseils exclusifs et analyses d&apos;experts pour
+                booster votre business et rester en tête de votre secteur.
+              </p>
+            </div>
           </div>
 
-          {/* Barre de recherche améliorée */}
-          <div className="max-w-2xl mx-auto relative">
-            <div className="relative group">
-              {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div> */}
+          {/* Barre de recherche et filtres compacts */}
+          <div className="px-4 sm:px-6 lg:px-8 pb-6">
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Barre de recherche */}
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  type="text"
+                  placeholder="Rechercher des articles..."
+                  value={searchTerm}
+                  onChange={(e: {
+                    target: { value: SetStateAction<string> };
+                  }) => setSearchTerm(e.target.value)}
+                  className="pl-9 pr-10 py-2.5 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                />
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              {/* Boutons filtres et vue */}
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  variant={isFilterOpen ? "default" : "outline"}
+                  size="sm"
+                  className="lg:hidden whitespace-nowrap"
+                >
+                  <Filter className="w-4 h-4 mr-2" />
+                  Filtres
+                  {hasActiveFilters && (
+                    <span className="ml-2 w-2 h-2 bg-blue-500 rounded-full"></span>
+                  )}
+                </Button>
+
+                {/* Sélecteurs de vue pour desktop */}
+                <div className="hidden sm:flex border border-gray-300 rounded-lg p-1 bg-gray-50">
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-1.5 rounded ${
+                      viewMode === "grid"
+                        ? "bg-white shadow-sm text-blue-600"
+                        : "text-gray-500 hover:text-gray-700"
+                    } transition-all`}
+                  >
+                    <Grid className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-1.5 rounded ${
+                      viewMode === "list"
+                        ? "bg-white shadow-sm text-blue-600"
+                        : "text-gray-500 hover:text-gray-700"
+                    } transition-all`}
+                  >
+                    <List className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Contenu principal */}
-          <div className="flex-1">
-            {/* Filtres améliorés */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8 items-start sm:items-center justify-between bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-              {/* Categories */}
-              <div className="w-full ">
-                <Select
-                  options={options}
-                  isLoading={categoriesLoading}
-                  placeholder={"Categories"}
-                  value={category}
-                  onChange={(val) => setCategories(val)}
-                  isClearable
-                  className="basic-single text-sm  text-black selectJob"
-                  classNamePrefix="select"
-                />
-              </div>
-
-              {/* Sort Dropdown */}
-              <div className="w-full">
-                <Select
-                  options={sortOptions}
-                  isLoading={categoriesLoading}
-                  placeholder={"Date"}
-                  value={sortDate}
-                  onChange={(val) => setSortDate(val)}
-                  isClearable
-                  className="basic-single text-sm  text-black selectJob"
-                  classNamePrefix="select"
-                />
-              </div>
-            </div>
-
-            {/* Compteur de résultats */}
-            <div className="mb-6">
-              <p className="text-gray-600 font-medium">
-                <span className="text-blue-600 font-bold">
-                  {data?.total || 0}
-                </span>{" "}
-                article{data?.total && data?.total > 1 ? "s" : ""} trouvé
-                {data?.total && data?.total > 1 ? "s" : ""}
-                {searchTerm && (
-                  <span className="ml-1">
-                    pour
-                    <span className="font-bold text-gray-900">
-                      {searchTerm}
-                    </span>
-                  </span>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          {/* Sidebar des filtres - Version desktop */}
+          <aside className={`hidden lg:block w-72 shrink-0`}>
+            <div className="sticky top-60 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-lg font-semibold text-gray-900">Filtres</h2>
+                {hasActiveFilters && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleClearFilters}
+                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 text-sm"
+                  >
+                    Réinitialiser
+                  </Button>
                 )}
-              </p>
+              </div>
+
+              <div className="space-y-6">
+                {/* Filtre par catégorie */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Catégories
+                  </label>
+                  <Select
+                    options={options}
+                    isLoading={categoriesLoading}
+                    placeholder="Toutes les catégories"
+                    value={category}
+                    onChange={(val) => setCategories(val)}
+                    isClearable
+                    className="text-sm"
+                    classNamePrefix="select"
+                    styles={{
+                      control: (base, state) => ({
+                        ...base,
+                        borderRadius: "0.5rem",
+                        padding: "0.125rem",
+                        borderColor: state.isFocused ? "#3b82f6" : "#d1d5db",
+                        boxShadow: state.isFocused
+                          ? "0 0 0 1px #3b82f6"
+                          : "none",
+                        "&:hover": {
+                          borderColor: "#3b82f6",
+                        },
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        backgroundColor: state.isSelected
+                          ? "#3b82f6"
+                          : state.isFocused
+                          ? "#eff6ff"
+                          : "white",
+                        color: state.isSelected ? "white" : "#374151",
+                      }),
+                    }}
+                  />
+                </div>
+
+                {/* Filtre par date */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                    Trier par date
+                  </label>
+                  <Select
+                    options={sortOptions}
+                    placeholder="Date"
+                    value={sortDate}
+                    onChange={(val) => setSortDate(val)}
+                    className="text-sm"
+                    classNamePrefix="select"
+                    styles={{
+                      control: (base, state) => ({
+                        ...base,
+                        borderRadius: "0.5rem",
+                        padding: "0.125rem",
+                        borderColor: state.isFocused ? "#3b82f6" : "#d1d5db",
+                        boxShadow: state.isFocused
+                          ? "0 0 0 1px #3b82f6"
+                          : "none",
+                        "&:hover": {
+                          borderColor: "#3b82f6",
+                        },
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        backgroundColor: state.isSelected
+                          ? "#3b82f6"
+                          : state.isFocused
+                          ? "#eff6ff"
+                          : "white",
+                        color: state.isSelected ? "white" : "#374151",
+                      }),
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Panneau de filtres mobile */}
+          {isFilterOpen && (
+            <div className="lg:hidden mb-6 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Filtres</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsFilterOpen(false)}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Catégories
+                  </label>
+                  <Select
+                    options={options}
+                    isLoading={categoriesLoading}
+                    placeholder="Toutes les catégories"
+                    value={category}
+                    onChange={(val) => setCategories(val)}
+                    isClearable
+                    className="text-sm"
+                    classNamePrefix="select"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Trier par date
+                  </label>
+                  <Select
+                    options={sortOptions}
+                    placeholder="Date"
+                    value={sortDate}
+                    onChange={(val) => setSortDate(val)}
+                    className="text-sm"
+                    classNamePrefix="select"
+                  />
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="sm"
+                    className="flex-1"
+                  >
+                    Réinitialiser
+                  </Button>
+                  <Button
+                    onClick={() => setIsFilterOpen(false)}
+                    size="sm"
+                    className="flex-1"
+                  >
+                    Appliquer
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Contenu principal */}
+          <div className="flex-1 min-w-0">
+            {/* Barre de résultats */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-6 items-start sm:items-center justify-between bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 mb-2">
+                  <span className="font-medium text-gray-900">
+                    {data?.total || 0}
+                  </span>
+                  <span>
+                    article{data?.total && data?.total > 1 ? "s" : ""} trouvé
+                    {data?.total && data?.total > 1 ? "s" : ""}
+                  </span>
+                  {searchTerm && (
+                    <>
+                      <span>pour</span>
+                      <span className="font-medium text-gray-900 px-2 py-1 bg-gray-100 rounded">
+                        {searchTerm}
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                {/* Tags des filtres actifs */}
+                <div className="flex flex-wrap gap-2">
+                  {category && (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                      {category.label}
+                      <button
+                        onClick={() => setCategories(null)}
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  )}
+                  {sortDate && sortDate.value !== "desc" && (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                      <ArrowUpDown className="w-3 h-3" />
+                      {sortDate.label}
+                      <button
+                        onClick={() =>
+                          setSortDate({ value: "desc", label: "Plus récent" })
+                        }
+                        className="text-purple-600 hover:text-purple-800"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  )}
+                </div>
+              </div>
+              {/* Sélecteurs de vue mobile */}
+              <div className="flex sm:hidden border border-gray-300 rounded-lg p-1 bg-gray-50">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded ${
+                    viewMode === "grid"
+                      ? "bg-white shadow-sm text-blue-600"
+                      : "text-gray-500"
+                  } transition-all`}
+                >
+                  <Grid className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 rounded ${
+                    viewMode === "list"
+                      ? "bg-white shadow-sm text-blue-600"
+                      : "text-gray-500"
+                  } transition-all`}
+                >
+                  <List className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            {/* Grille d'articles améliorée */}
+            {/* Grille/Liste d'articles */}
             {isLoading || (data?.total && data.total > 0) ? (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div
+                className={
+                  viewMode === "grid"
+                    ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6 mb-8"
+                    : "space-y-4 mb-8"
+                }
+              >
                 {isLoadingState}
               </div>
             ) : (
-              <div className="text-center py-20 bg-white rounded-2xl shadow-lg">
-                <div className="text-8xl mb-6">🔍</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Aucun article trouvé
                 </h3>
-                <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                <p className="text-gray-600 mb-6 max-w-md mx-auto text-sm">
                   Essayez de modifier vos critères de recherche ou explorez nos
                   catégories populaires.
                 </p>
                 <Button
-                  onClick={() => {
-                    setSearchTerm("");
-                    setCategories(null);
-                    setCurrentPage(1);
-                  }}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+                  onClick={handleClearFilters}
+                  className="bg-blue-600 hover:bg-blue-700 shadow-sm"
                 >
                   Réinitialiser les filtres
                 </Button>
               </div>
             )}
 
-            <Pagination
-              totalPages={data?.totalPages as number}
-              currentPage={currentPage}
-              onPageChange={goToPage}
-            />
+            {/* Pagination */}
+            {data && data.totalPages > 1 && (
+              <div className="mt-8">
+                <Pagination
+                  totalPages={data.totalPages}
+                  currentPage={currentPage}
+                  onPageChange={goToPage}
+                />
+              </div>
+            )}
           </div>
-
-          {/* Sidebar avec articles recommandés */}
-          {/* <div className="lg:w-80 space-y-6"> */}
-          {/* Articles en vedette */}
-          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  <Star className="h-5 w-5" />
-                  Articles Premium
-                </h3>
-              </CardHeader>
-              <CardContent className="p-0">
-                {featuredArticles.map((article, index) => (
-                  <div
-                    key={article.id}
-                    className={cn(
-                      "p-4 hover:bg-blue-50 cursor-pointer transition-colors duration-200 group",
-                      index !== featuredArticles.length - 1 &&
-                        "border-b border-gray-100"
-                    )}
-                  >
-                    <div className="flex gap-3">
-                      <img
-                        src={article.image}
-                        alt={article.title}
-                        className="w-16 h-16 object-cover rounded-lg group-hover:scale-105 transition-transform duration-200"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                          {article.title}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
-                          <Clock className="h-3 w-3" />
-                          {article.readTime}
-                          {article.views && (
-                            <>
-                              <Eye className="h-3 w-3 ml-1" />
-                              {article.views.toLocaleString()}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card> */}
-
-          {/* Articles tendance */}
-          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-pink-500 to-red-500 text-white">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  Tendances
-                </h3>
-              </CardHeader>
-              <CardContent className="p-0">
-                {trendingArticles.map((article, index) => (
-                  <div
-                    key={article.id}
-                    className={cn(
-                      "p-4 hover:bg-pink-50 cursor-pointer transition-colors duration-200 group",
-                      index !== trendingArticles.length - 1 &&
-                        "border-b border-gray-100"
-                    )}
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="w-6 h-6 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                        {index + 1}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 line-clamp-2 group-hover:text-pink-600 transition-colors">
-                          {article.title}
-                        </h4>
-                        <Badge
-                          className={cn(
-                            "mt-2 text-xs",
-                            getCategoryColor(article.category)
-                          )}
-                        >
-                          {article.category}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card> */}
-
-          {/* Articles populaires */}
-          {/* <Card className="bg-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
-                <h3 className="text-lg font-bold flex items-center gap-2">
-                  <Eye className="h-5 w-5" />
-                  Plus Populaires
-                </h3>
-              </CardHeader>
-              <CardContent className="p-0">
-                {popularArticles.map((article, index) => (
-                  <div
-                    key={article.id}
-                    className={cn(
-                      "p-4 hover:bg-green-50 cursor-pointer transition-colors duration-200 group",
-                      index !== popularArticles.length - 1 &&
-                        "border-b border-gray-100"
-                    )}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 group-hover:text-green-600 transition-colors">
-                          {article.title}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                          <span>{article.author}</span>
-                          <span>•</span>
-                          <span>{article.views?.toLocaleString()} vues</span>
-                        </div>
-                      </div>
-                      <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-green-500 transition-colors" />
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card> */}
-
-          {/* Call to Action */}
-          {/* <Card className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 text-white shadow-xl border-0 rounded-2xl overflow-hidden">
-              <CardContent className="p-6 text-center">
-                <div className="text-4xl mb-4">🚀</div>
-                <h3 className="text-lg font-bold mb-2">Accès Premium</h3>
-                <p className="text-blue-100 text-sm mb-4">
-                  Débloquez tous nos contenus exclusifs et boostez votre
-                  expertise
-                </p>
-                <Button className="bg-white text-blue-600 hover:bg-blue-50 font-semibold shadow-lg">
-                  Découvrir Premium
-                </Button>
-              </CardContent>
-            </Card> */}
-          {/* </div> */}
         </div>
       </main>
     </div>

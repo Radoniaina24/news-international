@@ -9,11 +9,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-const pacifico = Pacifico({
-  weight: "400",
-  subsets: ["latin"],
-});
-
 const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);

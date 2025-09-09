@@ -193,7 +193,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
                 className="w-8 h-8 rounded-full"
               />
               <div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                <p className="text-xs font-medium text-gray-900 dark:text-white">
                   {author.name}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
