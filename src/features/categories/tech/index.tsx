@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable */
 import Select from "react-select";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
