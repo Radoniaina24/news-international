@@ -2,7 +2,7 @@
 
 /* eslint-disable */
 import Select from "react-select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, Globe, Newspaper } from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
@@ -61,6 +61,10 @@ export default function ArticlesPolitique() {
     value: "desc",
     label: "Plus récent",
   });
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortDate, category]);
   const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
   const [search, setSearch] = useState<string>("");
   const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
