@@ -10,6 +10,7 @@ import { useGetAllPostWithTransformationResponseQuery } from "@/redux/api/postAp
 import BlogCardSkeleton from "@/components/Blog/BlogCardSkeleton";
 import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "@/components/Blog/BlogCard";
+import Pagination from "@/components/Pagination";
 
 interface valueSelectInput {
   label: string;
@@ -177,59 +178,11 @@ export default function ArticlesTech() {
             )}
 
             {/* Pagination améliorée */}
-            {data?.totalPages && data?.totalPages > 0 ? (
-              <div className="flex items-center justify-center gap-2 mt-12 bg-white p-6 rounded-2xl shadow-lg">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => goToPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="gap-1 border-2 hover:border-blue-300 hover:bg-blue-50"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  Précédent
-                </Button>
-
-                <div className="flex gap-1">
-                  {currentPage > 3 && (
-                    <>
-                      {renderPaginationButton(1)}
-                      {currentPage > 4 && (
-                        <span className="px-2 py-1 text-gray-400">...</span>
-                      )}
-                    </>
-                  )}
-
-                  {Array.from({ length: data?.totalPages }, (_, i) => i + 1)
-                    .filter((page) => Math.abs(page - currentPage) <= 1)
-                    .map((page) => renderPaginationButton(page))}
-
-                  {currentPage < data?.totalPages - 2 && (
-                    <>
-                      {currentPage < data?.totalPages - 3 && (
-                        <span className="px-2 py-1 text-gray-400">...</span>
-                      )}
-                      {renderPaginationButton(data?.totalPages)}
-                    </>
-                  )}
-                </div>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    goToPage(Math.min(data?.totalPages, currentPage + 1))
-                  }
-                  disabled={currentPage === data?.totalPages}
-                  className="gap-1 border-2 hover:border-blue-300 hover:bg-blue-50"
-                >
-                  Suivant
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
-              ""
-            )}
+            <Pagination
+              totalPages={data?.totalPages as number}
+              currentPage={currentPage}
+              onPageChange={goToPage}
+            />
           </div>
 
           {/* Sidebar avec articles recommandés */}
