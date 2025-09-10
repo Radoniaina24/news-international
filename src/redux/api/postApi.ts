@@ -1,6 +1,6 @@
 import { WPBlogPost } from "@/types/Blog";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+/* eslint-disable */
 export const postAPI = createApi({
   reducerPath: "postAPI",
   tagTypes: ["posts"],
@@ -65,6 +65,9 @@ export const postAPI = createApi({
       },
       providesTags: ["posts"],
     }),
+    getPostBySlug: builder.query<any, string>({
+      query: (slug) => `posts?slug=${slug}`,
+    }),
   }),
 });
 
@@ -72,4 +75,5 @@ export const {
   useGetAllPostQuery,
   useGetAllPostWithTransformationResponseQuery,
   useGetOneRecentPostQuery,
+  useGetPostBySlugQuery,
 } = postAPI;

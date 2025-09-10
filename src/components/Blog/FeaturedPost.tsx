@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { TrendingUp, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 /* eslint-disable */
 // export interface FeaturedPostProps {
@@ -21,6 +22,7 @@ export function FeaturedPost({ data, category = "Politique" }: any) {
     return null;
   }
   const post = data[0];
+  const navigation = useRouter();
   return (
     <div className="mb-12 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
       {/* Header */}
@@ -52,7 +54,14 @@ export function FeaturedPost({ data, category = "Politique" }: any) {
               politique qui façonnent notre avenir.
             </p>
 
-            <Button className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-xl shadow-lg">
+            <Button
+              onClick={() =>
+                navigation.push(
+                  `/category/${category.toLowerCase()}/${post.slug}`
+                )
+              }
+              className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-xl shadow-lg"
+            >
               Lire l'article complet
             </Button>
           </div>

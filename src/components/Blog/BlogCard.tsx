@@ -5,15 +5,18 @@ import { Clock, Eye, Heart, User } from "lucide-react";
 import Image from "next/image";
 import { WPBlogPost } from "@/types/Blog";
 import { timeAgo } from "@/lib/utils/timeAgo";
+import { usePathname, useRouter } from "next/navigation";
 
 interface BlogCardProps {
   article: WPBlogPost;
   variant?: "default" | "featured" | "compact";
+  category?: string;
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({
   article,
   variant = "default",
+  category = "blog",
 }) => {
   const formatDate = (date: string) => {
     return new Intl.DateTimeFormat("fr-FR", {
@@ -23,6 +26,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
     }).format(new Date(date));
   };
 
+  const navigation = useRouter();
+  const pathname = usePathname();
+  console.log(pathname);
   // ✅ Récupérer image avec le typage WPFeaturedMediaSize
   const imageUrl =
     article.blog_post_layout_featured_media_urls.full?.[0] ||
@@ -146,7 +152,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
   }
 
   return (
-    <article className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
+    <article
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow group cursor-pointer"
+      onClick={() => navigation.push(`/blog/${article.slug}`)}
+    >
       <div className="relative overflow-hidden rounded-t-xl">
         <Image
           width={400}

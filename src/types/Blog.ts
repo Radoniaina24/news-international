@@ -20,6 +20,7 @@ export interface WPBlogPost {
   guid: {
     rendered: string;
   };
+  slug: string;
   modified: string;
   modified_gmt: string;
   type: "post" | "page" | string;
