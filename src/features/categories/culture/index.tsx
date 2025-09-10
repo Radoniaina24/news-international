@@ -128,12 +128,12 @@ export default function ArticlesPolitique() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 bg-amber-100 text-amber-800 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-amber-100 text-amber-800 rounded-full text-sm font-medium mb-4">
               <Palette className="w-4 h-4 mr-2" />
               Arts & Culture
             </div>
 
-            <h1 className="text-2xl font-serif font-bold text-amber-900 mb-4 leading-tight">
+            <h1 className="text-xl font-serif font-bold text-amber-900 mb-4 leading-tight">
               <span className="bg-gradient-to-r from-amber-600 to-rose-700 bg-clip-text text-transparent">
                 L'Actualité
               </span>
@@ -141,7 +141,7 @@ export default function ArticlesPolitique() {
               <span className="text-amber-900">Culturelle & Artistique</span>
             </h1>
 
-            <p className="text-lg text-amber-800/90 max-w-4xl mx-auto leading-relaxed mb-8 font-serif">
+            <p className="text-md text-amber-800/90 max-w-4xl mx-auto leading-relaxed mb-8 font-serif">
               Découvrez les expositions, critiques littéraires, spectacles
               vivants et tendances artistiques. Plongez dans l'univers de la
               création contemporaine et du patrimoine culturel.

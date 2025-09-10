@@ -23,6 +23,24 @@ export function FeaturedPost({ data, category = "Politique" }: any) {
   }
   const post = data[0];
   const navigation = useRouter();
+
+  const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, "");
+
+  const getCategoryColor = (category: string) => {
+    const colors: Record<string, string> = {
+      Technologie: "bg-gradient-to-r from-blue-500 to-cyan-500 text-white",
+      Culture: "bg-gradient-to-r from-purple-500 to-pink-500 text-white",
+      Economie: "bg-gradient-to-r from-green-500 to-emerald-500 text-white",
+
+      Sport: "bg-gradient-to-r from-red-500 to-rose-500 text-white",
+      Politique: "bg-gradient-to-r from-indigo-600 to-blue-600 text-white",
+    };
+    return (
+      colors[category] ||
+      "bg-gradient-to-r from-gray-500 to-gray-600 text-white"
+    );
+  };
+
   return (
     <div className="mb-12 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
       {/* Header */}
@@ -40,18 +58,21 @@ export function FeaturedPost({ data, category = "Politique" }: any) {
           <div>
             <div className="flex items-center mb-4">
               <Tag className="w-4 h-4 text-indigo-600 mr-2" />
-              <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+              <span
+                className={`${getCategoryColor(
+                  category
+                )} px-3 py-1 rounded-full text-xs font-medium`}
+              >
                 {category}
               </span>
             </div>
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 leading-tight">
               {post.title?.rendered || "Titre de l'article à la une"}
             </h2>
 
-            <p className="text-gray-600 mb-6 line-clamp-3">
-              Découvrez les derniers développements et analyses de l'actualité
-              politique qui façonnent notre avenir.
+            <p className=" text-md text-gray-600 mb-6 line-clamp-3">
+              {excerpt}
             </p>
 
             <Button
@@ -60,7 +81,7 @@ export function FeaturedPost({ data, category = "Politique" }: any) {
                   `/category/${category.toLowerCase()}/${post.slug}`
                 )
               }
-              className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-xl shadow-lg"
+              className="bg-gradient-to-r text-xs from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-xl shadow-lg"
             >
               Lire l'article complet
             </Button>

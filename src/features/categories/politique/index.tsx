@@ -120,12 +120,12 @@ export default function ArticlesPolitique() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-4">
               <Globe className="w-4 h-4 mr-2" />
               Actualité Politique & Géopolitique
             </div>
 
-            <h1 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
+            <h1 className="text-xl font-bold text-gray-900 mb-4 leading-tight">
               <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
                 L'Actualité
               </span>
@@ -133,7 +133,7 @@ export default function ArticlesPolitique() {
               <span className="text-gray-800">Politique Décryptée</span>
             </h1>
 
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-md text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
               Analyses approfondies, reportages exclusifs et décryptages des
               enjeux politiques nationaux et internationaux. Restez informé des
               dernières évolutions qui façonnent notre monde.

@@ -120,12 +120,12 @@ export default function ArticlesPolitique() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 bg-blue-900/40 text-blue-300 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-900/40 text-blue-300 rounded-full text-sm font-medium mb-4 backdrop-blur-sm">
               <Cpu className="w-4 h-4 mr-2" />
               Innovation & Technologies Numériques
             </div>
 
-            <h1 className="text-2xl font-bold text-white mb-4 leading-tight">
+            <h1 className="text-xl font-bold text-white mb-4 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 L'Actualité
               </span>
@@ -133,7 +133,7 @@ export default function ArticlesPolitique() {
               <span className="text-white">Technologique</span>
             </h1>
 
-            <p className="text-lg text-blue-100 max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-md text-blue-100 max-w-4xl mx-auto leading-relaxed mb-8">
               Découvrez les dernières innovations, tendances tech et avancées
               numériques. Intelligence artificielle, blockchain, gadgets
               connectés et futur de l'informatique décryptés par nos experts.

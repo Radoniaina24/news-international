@@ -7,7 +7,7 @@ import { categories } from "../../data/categories";
 import SponsorBanner from "./SponsorBanner";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -23,7 +23,7 @@ const Header: React.FC = () => {
     }
     return pathname.startsWith(href);
   };
-
+  const naviagte = useRouter();
   return (
     <>
       <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors">
@@ -79,6 +79,8 @@ const Header: React.FC = () => {
                 alt="logo"
                 width={100}
                 height={100}
+                onClick={() => naviagte.push("/")}
+                className="hover:cursor-pointer"
               />
             </div>
 
