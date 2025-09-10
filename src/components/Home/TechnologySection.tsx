@@ -4,6 +4,7 @@ import { mockArticles } from "../../data/mockData";
 import { categories } from "../../data/categories";
 import ArticleCard from "../Articles/ArticleCard";
 import Image from "next/image";
+import Link from "next/link";
 
 const TechnologySection: React.FC = () => {
   const techCategory = categories.find((cat) => cat.slug === "technologie");
@@ -39,13 +40,13 @@ const TechnologySection: React.FC = () => {
             </p>
           </div>
         </div>
-        <a
+        <Link
           href="/category/technologie"
           className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors group"
         >
           Voir tout
           <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-        </a>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

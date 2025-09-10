@@ -12,7 +12,6 @@ export default function Home() {
         <BannerCarousel />
         <HeroSection />
         <CategoriesSection />
-        {/* <TechnologySection /> */}
         <NewsletterSignup />
         {/* <HtmlContent html={content} /> */}
       </main>
