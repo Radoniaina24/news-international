@@ -16,7 +16,6 @@ interface BlogCardProps {
 const BlogCard: React.FC<BlogCardProps> = ({
   article,
   variant = "default",
-  category = "blog",
 }) => {
   const formatDate = (date: string) => {
     return new Intl.DateTimeFormat("fr-FR", {
@@ -28,8 +27,14 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
   const navigation = useRouter();
   const pathname = usePathname();
-  console.log(pathname);
-  // ✅ Récupérer image avec le typage WPFeaturedMediaSize
+
+  const handleNavigation = () => {
+    if (pathname === "/") {
+      navigation.push(`blog/${article.slug}`);
+    } else {
+      navigation.push(`${pathname}/${article.slug}`);
+    }
+  };
   const imageUrl =
     article.blog_post_layout_featured_media_urls.full?.[0] ||
     article.blog_post_layout_featured_media_urls.thumbnail?.[0] ||
@@ -55,7 +60,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
   // };
   if (variant === "featured") {
     return (
-      <article className="relative group cursor-pointer">
+      <article
+        className="relative group cursor-pointer"
+        onClick={handleNavigation}
+      >
         <div className="relative h-96 lg:h-[500px] overflow-hidden rounded-xl">
           <Image
             width={800}
@@ -113,7 +121,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
   if (variant === "compact") {
     return (
-      <article className="flex space-x-4 group cursor-pointer">
+      <article
+        className="flex space-x-4 group cursor-pointer"
+        onClick={handleNavigation}
+      >
         <div className="w-24 h-24 flex-shrink-0">
           <Image
             width={100}
@@ -154,7 +165,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   return (
     <article
       className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow group cursor-pointer"
-      onClick={() => navigation.push(`/blog/${article.slug}`)}
+      onClick={handleNavigation}
     >
       <div className="relative overflow-hidden rounded-t-xl">
         <Image

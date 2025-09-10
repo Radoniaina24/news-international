@@ -245,7 +245,7 @@ export default function ArticlesPolitique() {
             {loading ? (
               <FeaturedPostSkeleton />
             ) : (
-              <FeaturedPost category="Economique" data={posts} />
+              <FeaturedPost category="Economie" data={posts} />
             )}
 
             {/* Grille d'articles */}
