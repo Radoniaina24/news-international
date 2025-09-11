@@ -12,6 +12,7 @@ export interface FormValues {
   country?: string;
   email?: string;
   recaptcha?: string;
+  subject?: string;
 }
 interface InputFieldProps {
   name: keyof FormValues;
@@ -51,7 +52,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           type={isPassword ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
           {...formik.getFieldProps(name)}
-          className={`w-full pl-10 pr-12 py-3 border rounded-lg placeholder:text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
+          className={`w-full pl-10 pr-12 py-3 text-sm border rounded-lg placeholder:text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
             hasError
               ? "border-red-400 "
               : "border-blue-200 bg-white hover:border-blue-300"

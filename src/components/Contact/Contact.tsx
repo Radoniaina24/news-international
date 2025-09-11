@@ -9,6 +9,7 @@ import {
   Phone,
   Send,
   Building2,
+  MessageSquare,
 } from "lucide-react";
 import { useFormik } from "formik";
 import { FormValues, InputField } from "../Form/InputField";
@@ -21,7 +22,7 @@ const Contact = () => {
   const validationSchema = Yup.object({
     lastName: Yup.string().required("Ce champ est requis"),
     firstName: Yup.string().required("Ce champ est requis"),
-    adresse: Yup.string().required("Ce champ est requis"),
+    subject: Yup.string().required("Ce champ est requis"),
     email: Yup.string()
       .email("Adresse email invalide")
       .required("Ce champ est requis"),
@@ -32,7 +33,7 @@ const Contact = () => {
     initialValues: {
       lastName: "",
       firstName: "",
-      adresse: "",
+      subject: "",
       email: "",
       message: "",
     },
@@ -55,7 +56,8 @@ const Contact = () => {
         // if (!response.ok) throw new Error("Erreur serveur");
 
         toast.success("Votre message a bien été envoyé.", { id: toastId });
-        resetForm();
+        // resetForm();
+        console.log(values);
       } catch (error) {
         console.log(error);
         toast.error("Une erreur est survenue. Veuillez réessayer.", {
@@ -112,18 +114,19 @@ const Contact = () => {
                     {/* Contact Fields */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <InputField
+                        name="subject"
+                        label="Sujet"
+                        icon={MessageSquare} // ou FileText, Edit3
+                        placeholder="Entrez le sujet de votre message"
+                        formik={formik}
+                      />
+
+                      <InputField
                         name="email"
                         label="Email"
                         type="email"
                         icon={Mail}
                         placeholder="exemple@gmail.com"
-                        formik={formik}
-                      />
-                      <InputField
-                        name="adresse"
-                        label="Adresse"
-                        icon={MapPin}
-                        placeholder="Votre adresse complète"
                         formik={formik}
                       />
                     </div>
@@ -141,7 +144,7 @@ const Contact = () => {
                     <button
                       type="submit"
                       disabled={formik.isSubmitting}
-                      className={`w-full bg-gradient-to-r from-blue-600 to-red-500 text-white py-4 px-6 rounded-2xl font-semibold shadow-xl transition-all duration-300 transform flex items-center justify-center space-x-3 ${
+                      className={`w-full bg-gradient-to-r text-sm from-blue-600 to-red-500 text-white py-4 px-6 rounded-2xl font-semibold shadow-xl transition-all duration-300 transform flex items-center justify-center space-x-3 ${
                         formik.isSubmitting
                           ? "opacity-70 cursor-not-allowed "
                           : "hover:shadow-2xl  hover:from-blue-700 hover:to-red-600 "
@@ -149,7 +152,7 @@ const Contact = () => {
                     >
                       {formik.isSubmitting ? (
                         <>
-                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <div className="w-5 h-5 border-2  border-white border-t-transparent rounded-full animate-spin"></div>
                           <span>Envoi en cours...</span>
                         </>
                       ) : (

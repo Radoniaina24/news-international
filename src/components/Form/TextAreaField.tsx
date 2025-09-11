@@ -36,7 +36,7 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
           placeholder={placeholder}
           rows={rows}
           {...formik.getFieldProps(name)}
-          className={`w-full pl-10 pr-4 py-3 border rounded-lg shadow-sm placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${
+          className={`w-full pl-10 pr-4 py-3 text-sm border rounded-lg shadow-sm placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${
             hasError
               ? "border-red-400"
               : "border-blue-200 bg-white hover:border-blue-300"

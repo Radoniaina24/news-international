@@ -127,7 +127,7 @@ const Header: React.FC = () => {
                     : "text-gray-600 dark:text-white hover:text-red-600 dark:hover:text-red-400"
                 }`}
               >
-                Tout les articles
+                Touts les articles
                 {isActiveLink("/blog") && (
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
                 )}
@@ -207,7 +207,7 @@ const Header: React.FC = () => {
                       : "text-gray-600 dark:text-white hover:text-red-600 dark:hover:text-red-400"
                   }`}
                 >
-                  Tout les articles
+                  Touts les articles
                   {isActiveLink("/blog") && (
                     <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
                   )}
