@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, Menu, X, Sun, Moon, Contact } from "lucide-react";
-import { useTheme } from "../../hooks/useTheme";
+import { Menu, X, Contact } from "lucide-react";
 import { categories } from "../../data/categories";
 import SponsorBanner from "./SponsorBanner";
 import Link from "next/link";
@@ -119,6 +118,19 @@ const Header: React.FC = () => {
                   </Link>
                 );
               })}
+              <Link
+                href="/blog"
+                className={`relative font-medium transition-colors duration-300 pb-1 ${
+                  isActiveLink("/blog")
+                    ? "text-red-600 dark:text-red-400"
+                    : "text-gray-600 dark:text-white hover:text-red-600 dark:hover:text-red-400"
+                }`}
+              >
+                Tout les articles
+                {isActiveLink("/blog") && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
+                )}
+              </Link>
             </nav>
 
             <div className="flex items-center space-x-4">
