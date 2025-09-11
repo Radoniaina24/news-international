@@ -41,19 +41,19 @@ const Contact = () => {
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       const toastId = toast.loading("Envoi en cours...");
       try {
-        // const fullname = values.lastName + " " + values.firstName;
-        // const response = await fetch("/api/contact", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({
-        //     name: fullname,
-        //     email: values.email,
-        //     address: values.adresse,
-        //     message: values.message,
-        //   }),
-        // });
+        const fullname = values.lastName + " " + values.firstName;
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: fullname,
+            email: values.email,
+            subject: values.subject,
+            message: values.message,
+          }),
+        });
 
-        // if (!response.ok) throw new Error("Erreur serveur");
+        if (!response.ok) throw new Error("Erreur serveur");
 
         toast.success("Votre message a bien été envoyé.", { id: toastId });
         // resetForm();

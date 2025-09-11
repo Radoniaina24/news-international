@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     // console.log(usre);
     const body = await req.json();
-    const { name, email, message, address } = body;
+    const { name, email, message, subject } = body;
     // console.log(process.env.EMAIL_PASS);
     // Configurer le transporteur Nodemailer
     // const transporter = nodemailer.createTransport({
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     //     pass: process.env.EMAIL_PASS,
     //   },
     // });
-
+    console.log(process.env.GMAIL_USER);
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -27,19 +27,18 @@ export async function POST(req: NextRequest) {
 
     // Contenu de l'email
     const mailOptions = {
-      from: `"Formulaire site web" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // Le destinataire : contact@carrefour-emploi.com
-      cc: "rojoclaudino@gmail.com",
-      subject: `Nouveau message de ${name}`,
-      html: `
-  <div
+      from: `"Formulaire site web" <${process.env.GMAIL_USER}>`,
+      to: process.env.GMAIL_USER, // Le destinataire : contact@carrefour-emploi.com
+      cc: "andriambolaradoniaina25@gmail.com",
+      subject: `${subject}`,
+      html: `<div
   style="
     font-family: Arial, sans-serif;
-    max-width: 600px;
+    max-width: 800px;
     margin: auto;
     padding: 20px;
     border-radius: 12px;
-    background: linear-gradient(135deg, #e3f2fd 0%, #fff3e0 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
     color: #333;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   "
@@ -47,7 +46,7 @@ export async function POST(req: NextRequest) {
   <!-- En-tête -->
   <div
     style="
-      background: linear-gradient(135deg, #1976d2 0%, #2196f3 100%);
+      background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
       padding: 25px;
       border-radius: 12px 12px 0 0;
       text-align: center;
@@ -64,7 +63,7 @@ export async function POST(req: NextRequest) {
         height: 200%;
         background: radial-gradient(
           circle,
-          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.15) 0%,
           transparent 70%
         );
         transform: rotate(45deg);
@@ -80,7 +79,7 @@ export async function POST(req: NextRequest) {
         z-index: 1;
       "
     >
-      📩 Nouveau message
+      Nouveau message
     </h2>
   </div>
 
@@ -89,40 +88,53 @@ export async function POST(req: NextRequest) {
     style="
       padding: 30px;
       background: white;
-      border-left: 4px solid #ff9800;
-      border-right: 4px solid #ff9800;
+      border-left: 4px solid #e53935;
+      border-right: 4px solid #388e3c;
     "
   >
     <div
       style="
         margin-bottom: 20px;
         padding: 15px;
-        background: linear-gradient(90deg, #e3f2fd 0%, #fff3e0 100%);
+        background: linear-gradient(90deg, #e3f2fd 0%, #ffffff 100%);
         border-radius: 8px;
-        border-left: 4px solid #2196f3;
+        border-left: 4px solid #1976d2;
       "
     >
       <p style="margin: 0; font-size: 16px">
-        <strong style="color: #1976d2">👤 Nom complet :</strong>
-        <span style="color: #555">${name}</span>
+        <strong style="color: #0d47a1">Nom complet :</strong>
+        <span style="color: #333">${name}</span>
       </p>
     </div>
-
     <div
       style="
         margin-bottom: 20px;
         padding: 15px;
-        background: linear-gradient(90deg, #fff3e0 0%, #e3f2fd 100%);
+        background: linear-gradient(90deg, #e3f2fd 0%, #ffffff 100%);
         border-radius: 8px;
-        border-left: 4px solid #ff9800;
+        border-left: 4px solid #388e3c;
       "
     >
       <p style="margin: 0; font-size: 16px">
-        <strong style="color: #ff9800">📧 Email :</strong>
+        <strong style="color: #388e3c">Sujet :</strong>
+        <span style="color: #333">${subject}</span>
+      </p>
+    </div>
+    <div
+      style="
+        margin-bottom: 20px;
+        padding: 15px;
+        background: linear-gradient(90deg, #ffffff 0%, #e3f2fd 100%);
+        border-radius: 8px;
+        border-left: 4px solid #e53935;
+      "
+    >
+      <p style="margin: 0; font-size: 16px">
+        <strong style="color: #e53935">Email :</strong>
         <a
           href="mailto:${email}"
           style="
-            color: #1976d2;
+            color: #0d47a1;
             text-decoration: none;
             font-weight: 500;
             border-bottom: 2px solid transparent;
@@ -133,38 +145,23 @@ export async function POST(req: NextRequest) {
       </p>
     </div>
 
-    <div
-      style="
-        margin-bottom: 20px;
-        padding: 15px;
-        background: linear-gradient(90deg, #e3f2fd 0%, #fff3e0 100%);
-        border-radius: 8px;
-        border-left: 4px solid #2196f3;
-      "
-    >
-      <p style="margin: 0; font-size: 16px">
-        <strong style="color: #1976d2">📍 Adresse :</strong>
-        <span style="color: #555">${address}</span>
-      </p>
-    </div>
-
     <div style="margin-bottom: 20px">
       <p
         style="
           margin-bottom: 10px;
           font-size: 16px;
           font-weight: 600;
-          color: #1976d2;
+          color: #0d47a1;
         "
       >
-        💬 Message :
+        Message :
       </p>
       <blockquote
         style="
-          border-left: 6px solid #ff9800;
+          border-left: 6px solid #e53935;
           padding: 20px;
           margin: 0;
-          background: linear-gradient(135deg, #f8f9fa 0%, #fff3e0 100%);
+          background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
           border-radius: 0 8px 8px 0;
           color: #444;
           font-style: italic;
@@ -172,20 +169,7 @@ export async function POST(req: NextRequest) {
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         "
       >
-        <div
-          style="
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 48px;
-            color: #ff9800;
-            opacity: 0.3;
-            line-height: 1;
-          "
-        >
-          "
-        </div>
-        <div style="position: relative; z-index: 1; padding-left: 20px">
+        <div style="position: relative; z-index: 1; padding-left: 10px">
           ${message}
         </div>
       </blockquote>
@@ -195,7 +179,7 @@ export async function POST(req: NextRequest) {
   <!-- Pied de page -->
   <div
     style="
-      background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+      background: linear-gradient(135deg, #388e3c 0%, #0d47a1 100%);
       padding: 20px;
       border-radius: 0 0 12px 12px;
       text-align: center;
@@ -212,7 +196,7 @@ export async function POST(req: NextRequest) {
         height: 200%;
         background: radial-gradient(
           circle,
-          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.15) 0%,
           transparent 70%
         );
         transform: rotate(-45deg);
@@ -229,12 +213,10 @@ export async function POST(req: NextRequest) {
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       "
     >
-      🏢 Carrefour de l'emploi et des études Madagascar
+      Gate Of Africa Magazine
     </p>
   </div>
-</div>
-
-  `,
+</div>`,
     };
     // Envoyer l'email
     await transporter.sendMail(mailOptions);
