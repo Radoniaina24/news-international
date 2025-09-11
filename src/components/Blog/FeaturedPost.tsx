@@ -34,6 +34,8 @@ export function FeaturedPost({ data, category = "Politique" }: any) {
 
       Sport: "bg-gradient-to-r from-red-500 to-rose-500 text-white",
       Politique: "bg-gradient-to-r from-indigo-600 to-blue-600 text-white",
+      Tourisme:
+        "bg-gradient-to-r from-teal-500 via-sky-400 to-emerald-500 text-white",
     };
     return (
       colors[category] ||

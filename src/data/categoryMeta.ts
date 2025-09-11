@@ -28,4 +28,9 @@ export const categoryMeta: Record<
     icon: "Palette",
     description: "Arts, spectacles et patrimoine culturel",
   },
+  tourisme: {
+    color: "#DB2777",
+    icon: "Globe",
+    description: "Arts, spectacles et patrimoine culturel",
+  },
 };

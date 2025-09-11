@@ -20,7 +20,7 @@ export const useCategoriesOptions = () => {
 export const useCategoriesSpecifique = () => {
   const { data, isLoading } = useGetAllCategoriesQuery({
     per_page: 100,
-    include: [33, 86, 15, 9, 4],
+    include: [33, 86, 15, 9, 4, 32],
   });
   if (isLoading) return { categories: [], isLoading: true };
 

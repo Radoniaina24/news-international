@@ -28,6 +28,8 @@ import { FeaturedPost } from "@/components/Blog/FeaturedPost";
 import { usePostsByPeriod } from "@/hooks/usePostsByPeriod";
 import { getDateRangeForStrictPeriod } from "@/lib/utils/getDateRangeForPeriod";
 import { Input } from "@/components/ui/input";
+import { StatCardSkeleton } from "@/components/Blog/StatCardSkeleton";
+import { StatCard } from "@/components/Blog/StatCard";
 
 interface valueSelectInput {
   label: string;
@@ -242,17 +244,15 @@ export default function ArticlesPolitique() {
             {/* Compteur de résultats enrichi */}
             <div className="mb-8 bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Newspaper className="w-5 h-5 text-indigo-600 mr-3" />
-                  <div>
-                    <p className="text-lg font-bold text-gray-900">
-                      {data?.total || 0}{" "}
-                      {data?.total && data.total > 1
-                        ? "articles culturels"
-                        : "article culturel"}
-                    </p>
-                  </div>
-                </div>
+                {isLoading ? (
+                  <StatCardSkeleton />
+                ) : (
+                  <StatCard
+                    count={data?.total as number}
+                    singular={"article culturel"}
+                    plural={"articles culturels"}
+                  />
+                )}
               </div>
             </div>
 

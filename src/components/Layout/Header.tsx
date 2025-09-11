@@ -1,5 +1,5 @@
 "use client";
-import { Pacifico } from "next/font/google";
+
 import React, { useState } from "react";
 import { Search, Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
@@ -99,7 +99,7 @@ const Header: React.FC = () => {
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
                 )}
               </Link>
-              {categories.slice(0, 5).map((category) => {
+              {categories.slice(0, 6).map((category) => {
                 const categoryPath = `/category/${category.slug}`;
                 const isActive = isActiveLink(categoryPath);
 

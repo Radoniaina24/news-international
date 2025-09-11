@@ -46,7 +46,6 @@ const BlogView: React.FC<BlogViewProps> = ({ article }) => {
   // ✅ Récupérer image avec le typage WPFeaturedMediaSize
   const imageUrl =
     article.blog_post_layout_featured_media_urls.full?.[0] ||
-    article.blog_post_layout_featured_media_urls.thumbnail?.[0] ||
     "/placeholder.jpg";
 
   // ✅ Auteur

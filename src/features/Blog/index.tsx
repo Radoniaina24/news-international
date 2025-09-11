@@ -87,7 +87,7 @@ export default function ArticlesPage() {
 
   const hasActiveFilters =
     searchTerm || category || (sortDate && sortDate.value !== "desc");
-
+  // console.log(category);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header professionnel avec design moderne */}

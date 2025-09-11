@@ -8,6 +8,7 @@ import BlogCard from "../Blog/BlogCard";
 import { WPBlogPost } from "@/types/Blog";
 import Link from "next/link";
 import { useCategoriesSpecifique } from "@/hooks/useCategories";
+import { categories } from "@/data/categories";
 
 const CategoriesSection: React.FC = () => {
   const { data, isLoading, error } = useGetAllPostQuery({
@@ -23,6 +24,8 @@ const CategoriesSection: React.FC = () => {
     : data?.map((post: WPBlogPost) => (
         <BlogCard key={post.id} article={post} />
       ));
+
+  console.log(categories);
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -36,10 +39,6 @@ const CategoriesSection: React.FC = () => {
               const IconComponent = Icons[
                 category.icon as keyof typeof Icons
               ] as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-              const articleCount = mockArticles.filter(
-                (a) => a.category.id === category.id
-              ).length;
-
               return (
                 <Link
                   key={category.id}

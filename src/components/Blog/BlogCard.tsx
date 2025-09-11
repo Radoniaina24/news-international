@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable */
 import React from "react";
-import { Clock, Eye, Heart, User } from "lucide-react";
+import { Clock, User } from "lucide-react";
 import Image from "next/image";
 import { WPBlogPost } from "@/types/Blog";
 import { timeAgo } from "@/lib/utils/timeAgo";
@@ -35,9 +35,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
       navigation.push(`${pathname}/${article.slug}`);
     }
   };
+  // const imageUrl =
+  //   article.blog_post_layout_featured_media_urls.full?.[0] ||
+  //   article.blog_post_layout_featured_media_urls.thumbnail?.[0] ||
+  //   "/placeholder.jpg";
+
   const imageUrl =
     article.blog_post_layout_featured_media_urls.full?.[0] ||
-    article.blog_post_layout_featured_media_urls.thumbnail?.[0] ||
     "/placeholder.jpg";
 
   // ✅ Auteur

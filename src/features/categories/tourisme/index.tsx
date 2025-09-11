@@ -4,7 +4,7 @@
 import Select from "react-select";
 import { SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Activity, Filter, Newspaper, Search, X } from "lucide-react";
+import { Filter, Newspaper, Palette, Search, X } from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
 import {
   useGetAllPostWithTransformationResponseQuery,
@@ -20,15 +20,15 @@ import { FeaturedPost } from "@/components/Blog/FeaturedPost";
 import { usePostsByPeriod } from "@/hooks/usePostsByPeriod";
 import { getDateRangeForStrictPeriod } from "@/lib/utils/getDateRangeForPeriod";
 import { Input } from "@/components/ui/input";
-import { StatCardSkeleton } from "@/components/Blog/StatCardSkeleton";
 import { StatCard } from "@/components/Blog/StatCard";
+import { StatCardSkeleton } from "@/components/Blog/StatCardSkeleton";
 
 interface valueSelectInput {
   label: string;
   value: string | number;
 }
 
-export default function ArticlesPolitique() {
+export default function ArticlesTourisme() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
@@ -84,7 +84,7 @@ export default function ArticlesPolitique() {
     page: currentPage,
     orderby: "date",
     order: sortDate?.value,
-    categories: 15,
+    categories: 32,
     after: dateRange.after,
     before: dateRange.before,
     search: searchTerm || undefined,
@@ -95,7 +95,7 @@ export default function ArticlesPolitique() {
     per_page: 1,
     orderby: "date",
     order: "desc",
-    categories: 15,
+    categories: 32,
     _embed: true,
   });
   // console.log(posts);
@@ -110,37 +110,69 @@ export default function ArticlesPolitique() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Hero Section Enrichi */}
-      <header className="relative bg-white shadow-xl border-b border-gray-100 overflow-hidden">
-        {/* Background Pattern sportif */}
-        <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-orange-500/10 to-blue-500/10"></div>
+      <header className="relative bg-blue-50 shadow-md border-b border-blue-200 overflow-hidden">
+        {/* Dégradé d'arrière-plan évoquant ciel et mer */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-teal-400/10 to-emerald-400/10"></div>
+
+        {/* Motif subtil représentant des vagues ou des montagnes */}
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-15"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20h20v20H20z' fill='%23FF0000' fill-opacity='0.1'/%3E%3Cpath d='M60 20h20v20H60z' fill='%230000FF' fill-opacity='0.1'/%3E%3Cpath d='M20 60h20v20H20z' fill='%230000FF' fill-opacity='0.1'/%3E%3Cpath d='M60 60h20v20H60z' fill='%23FF0000' fill-opacity='0.1'/%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230ea5e9' fill-opacity='0.2' d='M0,224L48,213.3C96,203,192,181,288,160C384,139,480,117,576,122.7C672,128,768,160,864,170.7C960,181,1056,171,1152,165.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E")`,
+            backgroundSize: "cover",
+            backgroundPosition: "bottom",
           }}
         ></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-medium mb-4">
-              <Activity className="w-4 h-4 mr-2" />
-              Actualités Sportives & Compétitions
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold mb-4 shadow-sm">
+              <svg
+                className="w-4 h-4 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                ></path>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                ></path>
+              </svg>
+              Découvertes & Aventures
             </div>
 
-            <h1 className="text-xl font-bold text-gray-900 mb-4 leading-tight">
-              <span className="bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
-                L'Actualité
+            <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 leading-tight">
+              <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
+                L'Essence du Voyage
               </span>
               <br />
-              <span className="text-gray-800">Sportive en Direct</span>
+              <span className="text-blue-800">
+                Explorer. Découvrir. S'émerveiller.
+              </span>
             </h1>
 
-            <p className="text-md text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8">
-              Résultats en temps réel, analyses techniques et reportages
-              exclusifs sur tous les sports. Suivez les compétitions, les
-              performances d'athlètes et les événements majeurs du monde
-              sportif.
+            <p className="text-lg text-blue-700/90 max-w-4xl mx-auto leading-relaxed mb-8 font-sans">
+              Découvrez des destinations exceptionnelles, des expériences
+              authentiques et des conseils experts pour planifier votre
+              prochaine aventure. Inspirez-vous et créez des souvenirs
+              inoubliables.
             </p>
+          </div>
+
+          {/* Éléments décoratifs évoquant le voyage */}
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+            <div className="w-3 h-3 rounded-full bg-blue-400 shadow-sm"></div>
+            <div className="w-3 h-3 rounded-full bg-teal-400 shadow-sm"></div>
+            <div className="w-3 h-3 rounded-full bg-emerald-400 shadow-sm"></div>
           </div>
         </div>
       </header>
@@ -235,8 +267,8 @@ export default function ArticlesPolitique() {
                 ) : (
                   <StatCard
                     count={data?.total as number}
-                    singular={"article sportif"}
-                    plural={"articles sportifs"}
+                    singular={"article touristique"}
+                    plural={"articles touristiques"}
                   />
                 )}
               </div>
@@ -245,7 +277,7 @@ export default function ArticlesPolitique() {
             {loading ? (
               <FeaturedPostSkeleton />
             ) : (
-              <FeaturedPost category="Sport" data={posts} />
+              <FeaturedPost category="Tourisme" data={posts} />
             )}
 
             {/* Grille d'articles */}
