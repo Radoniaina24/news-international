@@ -10,7 +10,6 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 const Header: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -124,7 +123,7 @@ const Header: React.FC = () => {
 
             <div className="flex items-center space-x-4">
               <button
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                onClick={() => naviagte.push("/contact")}
                 className="flex items-center gap-1 px-3 py-1.5 text-xs md:text-sm font-medium 
              rounded-full bg-red-500 text-white 
              hover:bg-red-600 active:bg-red-700 

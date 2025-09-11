@@ -13,7 +13,6 @@ export default function Home() {
         <HeroSection />
         <CategoriesSection />
         <NewsletterSignup />
-        {/* <HtmlContent html={content} /> */}
       </main>
     </div>
   );

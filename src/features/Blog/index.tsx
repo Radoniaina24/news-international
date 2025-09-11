@@ -12,6 +12,8 @@ import Pagination from "@/components/Pagination";
 
 import { Search, X, Filter, Grid, List, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { StatCard } from "@/components/Blog/StatCard";
+import { StatCardSkeleton } from "@/components/Blog/StatCardSkeleton";
 
 interface valueSelectInput {
   label: string;
@@ -23,20 +25,6 @@ export default function ArticlesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, string> = {
-      Technologie: "bg-gradient-to-r from-blue-500 to-cyan-500 text-white",
-      Design: "bg-gradient-to-r from-purple-500 to-pink-500 text-white",
-      Business: "bg-gradient-to-r from-green-500 to-emerald-500 text-white",
-      Marketing: "bg-gradient-to-r from-orange-500 to-red-500 text-white",
-      Sécurité: "bg-gradient-to-r from-red-500 to-rose-500 text-white",
-    };
-    return (
-      colors[category] ||
-      "bg-gradient-to-r from-slate-500 to-slate-600 text-white"
-    );
-  };
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
@@ -55,15 +43,16 @@ export default function ArticlesPage() {
     label: "Plus récent",
   });
 
-  const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
-    per_page: 12,
-    page: currentPage,
-    orderby: "date",
-    order: sortDate?.value,
-    categories: category?.value,
-    _embed: true,
-    search: searchTerm || undefined,
-  });
+  const { data, isLoading, refetch } =
+    useGetAllPostWithTransformationResponseQuery({
+      per_page: 12,
+      page: currentPage,
+      orderby: "date",
+      order: sortDate?.value,
+      categories: category?.value,
+      _embed: true,
+      search: searchTerm || undefined,
+    });
 
   const isLoadingState = isLoading
     ? Array.from({ length: 12 }).map((_, i) => (
@@ -76,6 +65,7 @@ export default function ArticlesPage() {
   // Réinitialiser la pagination quand les filtres changent
   useEffect(() => {
     setCurrentPage(1);
+    refetch();
   }, [searchTerm, category, sortDate]);
 
   const handleClearFilters = () => {
@@ -351,13 +341,15 @@ export default function ArticlesPage() {
             <div className="flex flex-col sm:flex-row gap-4 mb-6 items-start sm:items-center justify-between bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 mb-2">
-                  <span className="font-medium text-gray-900">
-                    {data?.total || 0}
-                  </span>
-                  <span>
-                    article{data?.total && data?.total > 1 ? "s" : ""} trouvé
-                    {data?.total && data?.total > 1 ? "s" : ""}
-                  </span>
+                  {isLoading ? (
+                    <StatCardSkeleton />
+                  ) : (
+                    <StatCard
+                      count={data?.total as number}
+                      singular={"article trouvé"}
+                      plural={"articles trouvés"}
+                    />
+                  )}
                   {searchTerm && (
                     <>
                       <span>pour</span>
