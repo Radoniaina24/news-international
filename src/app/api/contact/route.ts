@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const mailOptions = {
       from: `"Formulaire site web" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER, // Le destinataire : contact@carrefour-emploi.com
-      cc: "andriambolaradoniaina25@gmail.com",
+      cc: "redaction@gateofafrica.com, andriambolaradoniainamichael@gmail.com",
       subject: `${subject}`,
       html: `<div
   style="

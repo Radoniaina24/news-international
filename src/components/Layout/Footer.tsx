@@ -14,11 +14,11 @@ const categories = [
 ];
 
 const companyLinks = [
-  { href: "/about", label: "À propos" },
+  // { href: "/about", label: "À propos" },
   { href: "/contact", label: "Contact" },
-  { href: "/careers", label: "Carrières" },
-  { href: "/press", label: "Presse" },
-  { href: "/advertise", label: "Publicité" },
+  // { href: "/careers", label: "Carrières" },
+  // { href: "/press", label: "Presse" },
+  // { href: "/advertise", label: "Publicité" },
 ];
 
 const legalLinks = [
@@ -112,11 +112,13 @@ const Footer: React.FC = () => {
             <div className="mt-6 space-y-2 text-gray-300">
               <div className="flex items-center">
                 <Mail className="w-4 h-4 mr-2" />
-                <span className="text-sm">contact@gateofafrica.com</span>
+                <span className="text-sm">redaction@gateofafrica.com</span>
               </div>
               <div className="flex items-center">
                 <Phone className="w-4 h-4 mr-2" />
-                <span className="text-sm">+230 5 782 8567</span>
+                <span className="text-sm">
+                  +230 5 782 8567 | +261 32 05 777 47
+                </span>
               </div>
               <div className="flex items-center">
                 <MapPin className="w-4 h-4 mr-2" />

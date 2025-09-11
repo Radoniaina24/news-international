@@ -56,7 +56,7 @@ const Contact = () => {
         if (!response.ok) throw new Error("Erreur serveur");
 
         toast.success("Votre message a bien été envoyé.", { id: toastId });
-        // resetForm();
+        resetForm();
         console.log(values);
       } catch (error) {
         console.log(error);
@@ -184,7 +184,7 @@ const Contact = () => {
                         Adresse email
                       </h4>
                       <p className="text-slate-600 text-sm mt-1">
-                        contact@entreprise.com
+                        redaction@gateofafrica.com
                       </p>
                     </div>
                   </div>
