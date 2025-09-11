@@ -19,10 +19,10 @@ const BlogSkeleton: React.FC = () => {
       </div>
 
       {/* Contenu principal */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden animate-pulse">
           {/* Image de couverture */}
-          <div className="relative h-64 sm:h-80 lg:h-96 bg-gray-200 dark:bg-gray-700" />
+          <div className="relative h-64 sm:h-80 lg:h-[500px] bg-gray-200 dark:bg-gray-700" />
 
           {/* Contenu de l'article */}
           <div className="p-8 lg:p-12">

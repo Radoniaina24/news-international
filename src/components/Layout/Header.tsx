@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, Menu, X, Sun, Moon } from "lucide-react";
+import { Search, Menu, X, Sun, Moon, Contact } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
 import { categories } from "../../data/categories";
 import SponsorBanner from "./SponsorBanner";
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
       <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Bar */}
-          <div className="flex items-center justify-between py-2 text-sm border-b border-gray-100 dark:border-gray-800">
+          <div className="flex items-center justify-center py-2 text-sm border-b border-gray-100 dark:border-gray-800">
             <div className="hidden md:flex items-center space-x-4 text-gray-600 dark:text-gray-400">
               <p className="text- text-slate-500 font-medium">
                 {currentTime
@@ -42,7 +42,7 @@ const Header: React.FC = () => {
                   .replace(/\b\p{L}/gu, (char) => char.toUpperCase())}{" "}
               </p>
             </div>
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <button
                 onClick={toggleTheme}
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -56,7 +56,7 @@ const Header: React.FC = () => {
               <button className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-700 transition-colors">
                 S&apos;abonner
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* Main Header */}
@@ -125,15 +125,20 @@ const Header: React.FC = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 ease-in-out transform hover:scale-110 hover:rotate-12"
+                className="flex items-center gap-1 px-3 py-1.5 text-xs md:text-sm font-medium 
+             rounded-full bg-red-500 text-white 
+             hover:bg-red-600 active:bg-red-700 
+             transition-all duration-300 ease-in-out 
+             transform hover:scale-105 shadow-sm"
               >
-                <Search className="w-5 h-5" />
+                <Contact className="w-4 h-4" />
+                Contact
               </button>
             </div>
           </div>
 
           {/* Search Bar */}
-          {isSearchOpen && (
+          {/* {isSearchOpen && (
             <div className="py-4 border-t border-gray-200 dark:border-gray-700">
               <div className="relative max-w-2xl mx-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -145,7 +150,7 @@ const Header: React.FC = () => {
                 />
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Mobile Menu */}
           {isMenuOpen && (

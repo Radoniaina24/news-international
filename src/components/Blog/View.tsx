@@ -3,13 +3,10 @@
 import React from "react";
 import {
   Clock,
-  Heart,
   Calendar,
   Share2,
-  BookOpen,
   Tag,
   ArrowLeft,
-  MessageCircle,
   ThumbsUp,
   Bookmark,
 } from "lucide-react";
@@ -88,19 +85,22 @@ const BlogView: React.FC<BlogViewProps> = ({ article }) => {
       </div>
 
       {/* Contenu principal */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
-          {/* Image de couverture */}
-          <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
+          {/* Image de couverture améliorée */}
+          <div className="relative w-full h-72 sm:h-96 lg:h-[500px] overflow-hidden">
             <Image
               width={1200}
               height={600}
               src={imageUrl}
               alt={article.title.rendered}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               priority
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaUMk9kISjWbR4ybF8Mq9FUTaawTvJCrrkwtoSqB6/9k="
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+            {/* Overlay plus subtil */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
             {/* Catégories sur l'image */}
             <div className="absolute top-6 left-6">
@@ -121,11 +121,11 @@ const BlogView: React.FC<BlogViewProps> = ({ article }) => {
           </div>
 
           {/* Contenu de l'article */}
-          <div className="p-8 lg:p-12">
+          <div className="p-6 lg:p-10">
             {/* Titre */}
             <header className="mb-8">
               <h1
-                className="text-3xl  font-bold text-gray-900 dark:text-white leading-tight mb-6"
+                className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white leading-tight mb-6"
                 dangerouslySetInnerHTML={{ __html: article.title.rendered }}
               />
 
@@ -166,12 +166,10 @@ const BlogView: React.FC<BlogViewProps> = ({ article }) => {
               </div>
             </header>
 
-            {/* Extrait/Résumé */}
-
             {/* Contenu principal */}
             <div className="prose prose-lg dark:prose-invert max-w-none facebook">
               <div
-                className="text-gray-800 dark:text-gray-200 "
+                className="text-gray-800 dark:text-gray-200 leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: article.content?.rendered || "",
                 }}
@@ -201,19 +199,6 @@ const BlogView: React.FC<BlogViewProps> = ({ article }) => {
             </footer>
           </div>
         </article>
-
-        {/* Section recommandations ou articles similaires */}
-        {/* <div className="mt-12">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Articles recommandés
-            </h2>
-            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-              <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>D'autres articles intéressants arrivent bientôt...</p>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );
