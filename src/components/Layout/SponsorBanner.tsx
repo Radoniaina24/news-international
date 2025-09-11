@@ -55,11 +55,11 @@ const SponsorBanner: React.FC = () => {
   const currentSponsor = sponsors[currentSponsorIndex];
 
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 border-b border-gray-200 dark:border-gray-600 transition-colors">
+    <div className="bg-gradient-to-r from-blue-50 to-indigo-50   border-b border-gray-200  transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-3">
           <div className="flex items-center space-x-4">
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+            <span className="text-xs font-medium text-gray-500  uppercase tracking-wide">
               Partenaire
             </span>
             <div className="flex items-center space-x-3">
@@ -71,10 +71,10 @@ const SponsorBanner: React.FC = () => {
                 height={400}
               />
               <div>
-                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                <p className="text-sm font-semibold text-gray-900 ">
                   {currentSponsor.name}
                 </p>
-                <p className="text-xs text-gray-600 dark:text-gray-300">
+                <p className="text-xs text-gray-600 ">
                   {currentSponsor.description}
                 </p>
               </div>
@@ -86,7 +86,7 @@ const SponsorBanner: React.FC = () => {
               href={currentSponsor.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors group"
+              className="flex items-center text-sm text-blue-600  hover:text-blue-700 font-medium transition-colors group"
             >
               En savoir plus
               <ExternalLink className="w-3 h-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
@@ -101,8 +101,8 @@ const SponsorBanner: React.FC = () => {
                     onClick={() => setCurrentSponsorIndex(index)}
                     className={`w-2 h-2 rounded-full transition-colors ${
                       index === currentSponsorIndex
-                        ? "bg-blue-600 dark:bg-blue-400"
-                        : "bg-gray-300 dark:bg-gray-500 hover:bg-gray-400 dark:hover:bg-gray-400"
+                        ? "bg-blue-600 "
+                        : "bg-gray-300  hover:bg-gray-400 "
                     }`}
                   />
                 ))}
@@ -111,7 +111,7 @@ const SponsorBanner: React.FC = () => {
 
             <button
               onClick={() => setIsVisible(false)}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+              className="text-gray-400 hover:text-gray-600  transition-colors"
               aria-label="Fermer la bannière"
             >
               <X className="w-4 h-4" />

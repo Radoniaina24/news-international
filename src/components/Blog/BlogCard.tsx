@@ -165,7 +165,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
                 {categories.map((cat) => (
                   <span
                     key={cat.link}
-                    className="text-sm text-white dark:text-white bg-green-500 dark:bg-gray-700 px-2 py-0.5 rounded"
+                    className="text-sm text-white  bg-green-500  px-2 py-0.5 rounded"
                   >
                     {cat.name}
                   </span>
@@ -173,10 +173,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
               </div>
             )}
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <h3 className="font-semibold text-gray-900  line-clamp-2 group-hover:text-blue-600  transition-colors">
             {article.title.rendered}
           </h3>
-          <div className="flex items-center mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex items-center mt-2 text-xs text-gray-500 ">
             <span>{formatDate(article.date)}</span>
             <span className="mx-1">•</span>
             <span>il y a {timeAgo(article.date)}</span>
@@ -188,7 +188,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
   return (
     <article
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow group cursor-pointer"
+      className="bg-white  rounded-xl shadow-sm hover:shadow-md transition-shadow group cursor-pointer"
       onClick={handleNavigation}
     >
       <div className="relative overflow-hidden rounded-t-xl">
@@ -230,12 +230,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
       <div className="p-6">
         <h3
-          className="text-md font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+          className="text-md font-semibold text-gray-900  mb-2 line-clamp-2 group-hover:text-blue-600  transition-colors"
           dangerouslySetInnerHTML={{ __html: article.title.rendered }}
         />
-        <p className="text-gray-600 text-sm dark:text-gray-300 mb-4 line-clamp-3">
-          {excerpt}
-        </p>
+        <p className="text-gray-600 text-sm  mb-4 line-clamp-3">{excerpt}</p>
 
         <div className="flex items-center justify-between">
           {author && (
@@ -248,17 +246,17 @@ const BlogCard: React.FC<BlogCardProps> = ({
                 className="w-8 h-8 rounded-full"
               />
               <div>
-                <p className="text-xs font-medium text-gray-900 dark:text-white">
+                <p className="text-xs font-medium text-gray-900 ">
                   {author.name}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500 ">
                   {formatDate(article.date)}
                 </p>
               </div>
             </div>
           )}
 
-          <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex items-center space-x-4 text-xs text-gray-500 ">
             <div className="flex items-center">
               <Clock className="w-4 h-4 mr-1" />{" "}
               <span>il y a {timeAgo(article.date)}</span>

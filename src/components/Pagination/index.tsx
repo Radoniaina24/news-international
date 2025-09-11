@@ -25,10 +25,10 @@ const Pagination: FC<PaginationProps> = ({
       variant={page === currentPage ? "default" : "outline"}
       size="sm"
       onClick={() => onPageChange(page)}
-      className={`h-9 w-9 rounded-lg font-medium transition-all ${
+      className={`h-9 w-9 rounded-lg  font-medium transition-all ${
         page === currentPage
-          ? "bg-blue-600 text-white shadow-md hover:bg-blue-700 scale-105"
-          : "border-gray-300 text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700"
+          ? "bg-blue-600 dark:bg-blue-600 text-white shadow-md hover:bg-blue-700 scale-105"
+          : "border-gray-300 dark:bg-white text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700"
       }`}
     >
       {page}
@@ -45,7 +45,7 @@ const Pagination: FC<PaginationProps> = ({
         size="sm"
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
-        className="gap-1 px-3 py-2 h-9 border-gray-300 text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+        className="gap-1 px-3 py-2 h-9 border-gray-300 dark:bg-white text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-colors"
       >
         <ChevronLeft className="h-4 w-4" />
         Précédent
@@ -57,7 +57,7 @@ const Pagination: FC<PaginationProps> = ({
           <>
             {renderPageButton(1)}
             {currentPage > 4 && (
-              <span className="px-2 py-1 text-gray-400">...</span>
+              <span className="px-2 py-1 dark:bg-white text-gray-400">...</span>
             )}
           </>
         )}
@@ -69,7 +69,7 @@ const Pagination: FC<PaginationProps> = ({
         {currentPage < totalPages - 2 && (
           <>
             {currentPage < totalPages - 3 && (
-              <span className="px-2 py-1 text-gray-400">...</span>
+              <span className="px-2 py-1 dark:bg-white text-gray-400">...</span>
             )}
             {renderPageButton(totalPages)}
           </>
@@ -82,7 +82,7 @@ const Pagination: FC<PaginationProps> = ({
         size="sm"
         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
         disabled={currentPage === totalPages}
-        className="gap-1 px-3 py-2 h-9 border-gray-300 text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+        className="gap-1 px-3 py-2 h-9 border-gray-300 dark:bg-white text-gray-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 transition-colors"
       >
         Suivant
         <ChevronRight className="h-4 w-4" />

@@ -1,6 +1,6 @@
 import React from "react";
 /* eslint-disable */
-import { mockArticles } from "../../data/mockData";
+
 import * as Icons from "lucide-react";
 import { useGetAllPostQuery } from "@/redux/api/postApi";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
@@ -8,7 +8,6 @@ import BlogCard from "../Blog/BlogCard";
 import { WPBlogPost } from "@/types/Blog";
 import Link from "next/link";
 import { useCategoriesSpecifique } from "@/hooks/useCategories";
-import { categories } from "@/data/categories";
 
 const CategoriesSection: React.FC = () => {
   const { data, isLoading, error } = useGetAllPostQuery({
@@ -25,15 +24,13 @@ const CategoriesSection: React.FC = () => {
         <BlogCard key={post.id} article={post} />
       ));
 
-  console.log(categories);
+  // console.log(categories);
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Categories Navigation */}
         <div className="lg:col-span-1">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-            Catégories
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900  mb-6">Catégories</h2>
           <nav className="space-y-2">
             {cat.map((category: any) => {
               const IconComponent = Icons[
@@ -43,7 +40,7 @@ const CategoriesSection: React.FC = () => {
                 <Link
                   key={category.id}
                   href={`/category/${category.slug}`}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50  transition-colors group"
                 >
                   <div className="flex items-center">
                     <div
@@ -56,10 +53,10 @@ const CategoriesSection: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <p className="font-medium text-gray-900  group-hover:text-blue-600  transition-colors">
                         {category.name}
                       </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-gray-500 ">
                         {category.count} articles
                       </p>
                     </div>
@@ -73,12 +70,12 @@ const CategoriesSection: React.FC = () => {
         {/* Recent Articles */}
         <div className="lg:col-span-3">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-2xl font-bold text-gray-900 ">
               Articles Récents
             </h2>
             <Link
               href="/blog"
-              className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+              className="text-blue-600  hover:text-blue-700  font-medium transition-colors"
             >
               Voir tout
             </Link>

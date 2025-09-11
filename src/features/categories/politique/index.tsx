@@ -147,7 +147,7 @@ export default function ArticlesPolitique() {
                     onChange={(e: {
                       target: { value: SetStateAction<string> };
                     }) => setSearchTerm(e.target.value)}
-                    className="pl-9 pr-10 py-2.5 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    className="pl-9 pr-10 py-2.5 dark:bg-white dark:text-gray-500 dark:placeholder:text-gray-400 dark:border-gray-300 dark:focus:ring-0  dark:focus:outline-0 dark:outline:none rounded-lg border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                   {searchTerm && (
                     <button
@@ -169,10 +169,11 @@ export default function ArticlesPolitique() {
                     value={sortDate}
                     onChange={(val) => setSortDate(val)}
                     isClearable
-                    className="text-sm"
+                    className="text-sm text-gray-400"
                     styles={{
                       control: (base) => ({
                         ...base,
+
                         borderRadius: "12px",
                         borderColor: "#e5e7eb",
                         "&:hover": { borderColor: "#6366f1" },

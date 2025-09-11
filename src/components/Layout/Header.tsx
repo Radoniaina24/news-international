@@ -24,11 +24,11 @@ const Header: React.FC = () => {
   const naviagte = useRouter();
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors">
+      <header className="sticky top-0 z-50 bg-white  shadow-sm border-b border-gray-200  transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Bar */}
-          <div className="flex items-center justify-center py-2 text-sm border-b border-gray-100 dark:border-gray-800">
-            <div className="hidden md:flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+          <div className="flex items-center justify-center py-2 text-sm border-b border-gray-100 ">
+            <div className="hidden md:flex items-center space-x-4 text-gray-600 ">
               <p className="text- text-slate-500 font-medium">
                 {currentTime
                   .toLocaleDateString("fr-FR", {
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-4">
               <button
-                className="lg:hidden text-gray-600 dark:text-gray-400"
+                className="lg:hidden text-gray-600 "
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? (
@@ -88,13 +88,13 @@ const Header: React.FC = () => {
                 href="/"
                 className={`relative font-medium transition-colors duration-300 pb-1 ${
                   isActiveLink("/")
-                    ? "text-red-600 dark:text-red-400"
-                    : "text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400"
+                    ? "text-red-600 "
+                    : "text-gray-900  hover:text-red-600 "
                 }`}
               >
                 Accueil
                 {isActiveLink("/") && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600  rounded-full"></span>
                 )}
               </Link>
               {categories.slice(0, 6).map((category) => {
@@ -107,13 +107,13 @@ const Header: React.FC = () => {
                     href={categoryPath}
                     className={`relative transition-colors duration-300 pb-1 ${
                       isActive
-                        ? "text-red-600 dark:text-red-400 font-medium"
-                        : "text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400"
+                        ? "text-red-600  font-medium"
+                        : "text-gray-600  hover:text-red-600 "
                     }`}
                   >
                     {category.name}
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600  rounded-full"></span>
                     )}
                   </Link>
                 );
@@ -123,13 +123,13 @@ const Header: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className={`relative font-medium transition-colors duration-300 pb-1 ${
                   isActiveLink("/blog")
-                    ? "text-red-600 dark:text-red-400"
-                    : "text-gray-600 dark:text-white hover:text-red-600 dark:hover:text-red-400"
+                    ? "text-red-600 "
+                    : "text-gray-600  hover:text-red-600 "
                 }`}
               >
                 Touts les articles
                 {isActiveLink("/blog") && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600  rounded-full"></span>
                 )}
               </Link>
             </nav>
@@ -166,15 +166,15 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="lg:hidden py-4 border-t border-gray-200 ">
               <nav className="space-y-2">
                 <Link
                   onClick={() => setIsMenuOpen(false)}
                   href="/"
                   className={`block py-2 transition-colors duration-300 ${
                     isActiveLink("/")
-                      ? "text-red-600 dark:text-red-400 font-medium border-l-4 border-red-600 dark:border-red-400 pl-3"
-                      : "text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400"
+                      ? "text-red-600  font-medium border-l-4 border-red-600  pl-3"
+                      : "text-gray-900  hover:text-red-600 "
                   }`}
                 >
                   Accueil
@@ -190,8 +190,8 @@ const Header: React.FC = () => {
                       href={categoryPath}
                       className={`block py-2 transition-colors duration-300 ${
                         isActive
-                          ? "text-red-600 dark:text-red-400 font-medium border-l-4 border-red-600 dark:border-red-400 pl-3"
-                          : "text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400"
+                          ? "text-red-600  font-medium border-l-4 border-red-600  pl-3"
+                          : "text-gray-600  hover:text-red-600 "
                       }`}
                     >
                       {category.name}
@@ -203,13 +203,13 @@ const Header: React.FC = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`relative font-medium transition-colors duration-300 pb-1 ${
                     isActiveLink("/blog")
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-gray-600 dark:text-white hover:text-red-600 dark:hover:text-red-400"
+                      ? "text-red-600 "
+                      : "text-gray-600  hover:text-red-600"
                   }`}
                 >
                   Touts les articles
                   {isActiveLink("/blog") && (
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600 dark:bg-red-400 rounded-full"></span>
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600  rounded-full"></span>
                   )}
                 </Link>
               </nav>

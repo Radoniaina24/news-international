@@ -32,9 +32,7 @@ const HeroSection: React.FC = () => {
         )}
         {/* Side Articles */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            À la Une
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900 ">À la Une</h2>
 
           {loading ? (
             <div className="lg:col-span-2">
@@ -49,8 +47,8 @@ const HeroSection: React.FC = () => {
           )}
 
           {/* Trending Topics */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-xl">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-blue-50  p-6 rounded-xl">
+            <h3 className="text-lg font-semibold text-gray-900  mb-4">
               Sujets Tendance
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -63,7 +61,7 @@ const HeroSection: React.FC = () => {
               ].map((tag) => (
                 <span
                   key={tag}
-                  className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-800 cursor-pointer transition-colors"
+                  className="bg-white  px-3 py-1 rounded-full text-sm text-gray-700  hover:bg-blue-100  cursor-pointer transition-colors"
                 >
                   #{tag}
                 </span>
