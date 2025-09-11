@@ -57,7 +57,7 @@ const Contact = () => {
 
         toast.success("Votre message a bien été envoyé.", { id: toastId });
         resetForm();
-        console.log(values);
+        // console.log(values);
       } catch (error) {
         console.log(error);
         toast.error("Une erreur est survenue. Veuillez réessayer.", {
