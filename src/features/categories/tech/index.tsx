@@ -31,23 +31,6 @@ interface valueSelectInput {
 export default function ArticlesPolitique() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("all");
-
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, string> = {
-      Technologie: "bg-gradient-to-r from-blue-500 to-cyan-500 text-white",
-      Design: "bg-gradient-to-r from-purple-500 to-pink-500 text-white",
-      Business: "bg-gradient-to-r from-green-500 to-emerald-500 text-white",
-      Marketing: "bg-gradient-to-r from-orange-500 to-red-500 text-white",
-      Sécurité: "bg-gradient-to-r from-red-500 to-rose-500 text-white",
-      Politique: "bg-gradient-to-r from-indigo-600 to-blue-600 text-white",
-      Géopolitique: "bg-gradient-to-r from-red-600 to-orange-600 text-white",
-    };
-    return (
-      colors[category] ||
-      "bg-gradient-to-r from-gray-500 to-gray-600 text-white"
-    );
-  };
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
@@ -104,7 +87,7 @@ export default function ArticlesPolitique() {
         <BlogCardSkeleton key={`skeleton-${i}`} />
       ))
     : data?.posts.map((post: WPBlogPost) => (
-        <BlogCard key={post.id} article={post} />
+        <BlogCard category="Technologie" key={post.id} article={post} />
       ));
 
   return (

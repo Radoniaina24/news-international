@@ -1,11 +1,12 @@
 "use client";
 /* eslint-disable */
 import React from "react";
-import { Clock, User } from "lucide-react";
+import { Clock, Tag, User } from "lucide-react";
 import Image from "next/image";
 import { WPBlogPost } from "@/types/Blog";
 import { timeAgo } from "@/lib/utils/timeAgo";
 import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils/classNames";
 
 interface BlogCardProps {
   article: WPBlogPost;
@@ -16,6 +17,7 @@ interface BlogCardProps {
 const BlogCard: React.FC<BlogCardProps> = ({
   article,
   variant = "default",
+  category,
 }) => {
   const formatDate = (date: string) => {
     return new Intl.DateTimeFormat("fr-FR", {
@@ -35,6 +37,24 @@ const BlogCard: React.FC<BlogCardProps> = ({
       navigation.push(`${pathname}/${article.slug}`);
     }
   };
+
+  const getCategoryColor = (category: string) => {
+    const colors: Record<string, string> = {
+      Technologie: "bg-gradient-to-r from-blue-500 to-cyan-500 text-white",
+      Culture: "bg-gradient-to-r from-purple-500 to-pink-500 text-white",
+      Économie: "bg-gradient-to-r from-green-500 to-emerald-500 text-white",
+
+      Sport: "bg-gradient-to-r from-red-500 to-rose-500 text-white",
+      Politique: "bg-gradient-to-r from-indigo-600 to-blue-600 text-white",
+      Tourisme:
+        "bg-gradient-to-r from-teal-500 via-sky-400 to-emerald-500 text-white",
+    };
+    return (
+      colors[category] ||
+      "bg-gradient-to-r from-gray-500 to-gray-600 text-white"
+    );
+  };
+
   // const imageUrl =
   //   article.blog_post_layout_featured_media_urls.full?.[0] ||
   //   article.blog_post_layout_featured_media_urls.thumbnail?.[0] ||
@@ -179,14 +199,25 @@ const BlogCard: React.FC<BlogCardProps> = ({
           alt={article.title.rendered}
           className="w-full h-48 object-cover transition-transform group-hover:scale-105 duration-300"
         />
-        <div className="absolute top-4 right-4 flex items-center space-x-2">
+        <div className="absolute top-2 right-2 flex items-center space-x-2">
           <div className="flex items-center mb-1">
-            {categories.length > 0 && (
-              <div className="flex lowercase flex-wrap items-center gap-2 mb-2">
+            {category ? (
+              <div className="flex items-center ">
+                <span
+                  className={cn(
+                    "px-3 py-1 rounded-full text-xs font-medium",
+                    getCategoryColor(category)
+                  )}
+                >
+                  {category}
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <span
                     key={cat.link}
-                    className="text-sm text-white dark:text-white bg-green-500 dark:bg-gray-700 px-2 py-0.5 rounded"
+                    className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-blue-600 text-white"
                   >
                     {cat.name}
                   </span>

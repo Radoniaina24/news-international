@@ -13,8 +13,7 @@ const NewsletterSignup: React.FC = () => {
     "Sport",
     "Technologie",
     "Culture",
-    "Santé",
-    "Environnement",
+    "Tourisme",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
