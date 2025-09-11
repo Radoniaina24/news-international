@@ -101,3 +101,22 @@ body {
 .facebook a {
   color: blue;
 }
+
+figure {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem; /* espace entre les images */
+  justify-items: center; /* centre chaque image */
+  align-items: center;
+  margin-top: 15px;
+  padding: 0;
+}
+
+figure img {
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1 / 1; /* garde une forme carrée */
+  object-fit: cover; /* évite la déformation */
+  border-radius: 8px; /* optionnel, pour un rendu plus moderne */
+}
