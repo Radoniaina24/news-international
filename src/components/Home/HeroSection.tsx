@@ -47,7 +47,7 @@ const HeroSection: React.FC = () => {
           )}
 
           {/* Trending Topics */}
-          <div className="bg-blue-50  p-6 rounded-xl">
+          {/* <div className="bg-blue-50  p-6 rounded-xl">
             <h3 className="text-lg font-semibold text-gray-900  mb-4">
               Sujets Tendance
             </h3>
@@ -67,7 +67,7 @@ const HeroSection: React.FC = () => {
                 </span>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
