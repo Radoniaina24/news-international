@@ -17,25 +17,26 @@ const SponsorBanner: React.FC = () => {
   const sponsors: Sponsor[] = [
     {
       id: "1",
-      name: "TechCorp",
-      logo: "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=100",
-      url: "https://example.com",
-      description: "Solutions technologiques innovantes",
+      name: "Gate Africa Group",
+      logo: "https://res.cloudinary.com/dbpoyo4gw/image/upload/v1749549435/logo_gate_group_pktaw2.jpg",
+      url: "https://www.gateafricagroup.com/",
+      description:
+        "Une vision panafricaine pour transformer l'Afrique, secteur par secteur",
     },
-    {
-      id: "2",
-      name: "GlobalBank",
-      logo: "https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=100",
-      url: "https://example.com",
-      description: "Votre partenaire financier de confiance",
-    },
-    {
-      id: "3",
-      name: "EcoEnergy",
-      logo: "https://images.pexels.com/photos/433308/pexels-photo-433308.jpeg?auto=compress&cs=tinysrgb&w=100",
-      url: "https://example.com",
-      description: "Énergies renouvelables pour l'avenir",
-    },
+    // {
+    //   id: "2",
+    //   name: "GlobalBank",
+    //   logo: "https://images.pexels.com/photos/259027/pexels-photo-259027.jpeg?auto=compress&cs=tinysrgb&w=100",
+    //   url: "https://example.com",
+    //   description: "Votre partenaire financier de confiance",
+    // },
+    // {
+    //   id: "3",
+    //   name: "EcoEnergy",
+    //   logo: "https://images.pexels.com/photos/433308/pexels-photo-433308.jpeg?auto=compress&cs=tinysrgb&w=100",
+    //   url: "https://example.com",
+    //   description: "Énergies renouvelables pour l'avenir",
+    // },
   ];
 
   // Rotation automatique des sponsors

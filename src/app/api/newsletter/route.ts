@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
           topics && topics.length > 0 ? topics.join(", ") : "Aucun"
         }</p>
         <p><strong>Consentement :</strong> ${
-          consent ? "✅ Accepté" : "❌ Non accepté"
+          consent ? "✅ Accepté" : "✅ Accepté"
         }</p>
       `,
     };

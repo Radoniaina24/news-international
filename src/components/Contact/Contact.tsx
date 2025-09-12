@@ -4,7 +4,6 @@ import React from "react";
 import {
   User,
   Mail,
-  MapPin,
   MessageCircle,
   Phone,
   Send,

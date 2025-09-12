@@ -1,9 +1,17 @@
+"use client";
 import React from "react";
 import Link from "next/link";
-
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
-
+import toast, { Toaster } from "react-hot-toast";
+const NewsletterSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Adresse email invalide")
+    .required("L’email est requis"),
+});
 // 🔗 Liens dynamiques
 const categories = [
   { href: "/category/politique", label: "Politique" },
@@ -45,6 +53,8 @@ const FooterLink: React.FC<{ href: string; label: string }> = ({
 );
 
 const Footer: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -96,17 +106,71 @@ const Footer: React.FC = () => {
               Recevez les dernières actualités directement dans votre boîte
               mail.
             </p>
-            <div className="flex flex-col space-y-2">
-              <input
-                type="email"
-                placeholder="Votre email"
-                aria-label="Adresse email"
-                className="px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-              />
-              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                S&apos;abonner
-              </button>
-            </div>
+            <Toaster position="top-center" />
+            <Formik
+              initialValues={{ email: "" }}
+              validationSchema={NewsletterSchema}
+              onSubmit={async (values, { resetForm }) => {
+                try {
+                  setLoading(true);
+                  const res = await fetch("/api/newsletter", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(values),
+                  });
+
+                  const data = await res.json();
+                  if (data.success) {
+                    toast.success("Merci ! Vous êtes maintenant abonné 🎉");
+                    resetForm();
+                    setTimeout(() => setSuccess(null), 3000);
+                  } else {
+                    setSuccess("❌ Une erreur est survenue. Réessayez.");
+                  }
+                } catch (err) {
+                  console.error("Erreur API Newsletter:", err);
+                  setSuccess(
+                    "❌ Impossible de vous inscrire. Réessayez plus tard."
+                  );
+                } finally {
+                  setLoading(false);
+                }
+              }}
+            >
+              {() => (
+                <Form className="flex flex-col space-y-2">
+                  {/* Champ Email */}
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Votre email"
+                    aria-label="Adresse email"
+                    className="px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-white placeholder-gray-400"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="p"
+                    className="text-sm text-red-500"
+                  />
+
+                  {/* Bouton */}
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {loading ? "Envoi..." : "S’abonner"}
+                  </button>
+
+                  {/* Message succès/erreur */}
+                  {success && (
+                    <p className="text-sm text-center mt-2 text-gray-300">
+                      {success}
+                    </p>
+                  )}
+                </Form>
+              )}
+            </Formik>
 
             {/* 📍 Contact Info */}
             <div className="mt-6 space-y-2 text-gray-300">
@@ -121,8 +185,12 @@ const Footer: React.FC = () => {
                 </span>
               </div>
               <div className="flex items-center">
-                <MapPin className="w-4 h-4 mr-2" />
-                <span className="text-sm">île de Maurice </span>
+                <div>
+                  <MapPin className="w-4 h-4 mr-2" />
+                </div>
+                <span className="text-sm">
+                  Antananarivo Madagascar | île de Maurice{" "}
+                </span>
               </div>
             </div>
           </div>
@@ -135,11 +203,11 @@ const Footer: React.FC = () => {
               © {new Date().getFullYear()} Gate of Africa Magazine. Tous droits
               réservés.
             </p>
-            <ul className="flex space-x-6 text-sm">
+            {/* <ul className="flex space-x-6 text-sm">
               {legalLinks.map((item) => (
                 <FooterLink key={item.href} {...item} />
               ))}
-            </ul>
+            </ul> */}
           </div>
         </div>
       </div>
