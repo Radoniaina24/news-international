@@ -72,7 +72,7 @@ export default function ArticlesPage() {
   useEffect(() => {
     setCurrentPage(1);
     refetch();
-  }, [searchTerm, category, sortDate]);
+  }, [searchTerm, category, sortDate, selectedPeriod]);
 
   const handleClearFilters = () => {
     setSearchTerm("");
