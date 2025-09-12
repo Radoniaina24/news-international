@@ -19,6 +19,7 @@ const categories = [
   { href: "/category/sport", label: "Sport" },
   { href: "/category/technologie", label: "Technologie" },
   { href: "/category/culture", label: "Culture" },
+  { href: "/category/tourisme", label: "Tourisme" },
 ];
 
 const companyLinks = [
