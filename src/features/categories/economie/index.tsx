@@ -4,7 +4,7 @@
 import Select from "react-select";
 import { SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Filter, Globe, Newspaper, Search, TrendingUp, X } from "lucide-react";
+import { Filter, Search, TrendingUp, X } from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
 import {
   useGetAllPostWithTransformationResponseQuery,
@@ -31,7 +31,6 @@ interface valueSelectInput {
 export default function ArticlesPolitique() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("all");
   const goToPage = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -60,7 +59,6 @@ export default function ArticlesPolitique() {
     setCurrentPage(1);
   }, [sortDate, category]);
   const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
-  const [search, setSearch] = useState<string>("");
   const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
   const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
     per_page: 12,

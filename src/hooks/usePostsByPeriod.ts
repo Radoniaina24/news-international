@@ -10,10 +10,11 @@ export const periods: Period[] = [
   { value: "week", label: "Cette semaine" },
   { value: "month", label: "Ce mois" },
   { value: "year", label: "Cette année" },
+  { value: "all", label: "Tous" },
 ];
 
 export const usePostsByPeriod = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState<string>("year");
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("all");
 
   const handlePeriodChange = useCallback((period: string) => {
     setSelectedPeriod(period);

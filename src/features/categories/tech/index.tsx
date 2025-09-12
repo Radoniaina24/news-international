@@ -4,7 +4,7 @@
 import Select from "react-select";
 import { SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Activity, Cpu, Filter, Newspaper, Search, X } from "lucide-react";
+import { Cpu, Filter, Search, X } from "lucide-react";
 import { useCategoriesOptions } from "@/hooks/useCategories";
 import {
   useGetAllPostWithTransformationResponseQuery,
@@ -60,7 +60,6 @@ export default function ArticlesPolitique() {
     setCurrentPage(1);
   }, [sortDate, category]);
   const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
-  const [search, setSearch] = useState<string>("");
   const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
   const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
     per_page: 12,

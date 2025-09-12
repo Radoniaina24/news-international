@@ -13,6 +13,6 @@ export default function PostPage() {
   if (isLoading) return <BlogSkeleton />;
   if (error) return <p>Erreur lors du chargement de l’article.</p>;
   if (!post) return <p>Aucun article trouvé.</p>;
-  console.log(post);
+  // console.log(post);
   return <BlogView article={post[0]} />;
 }

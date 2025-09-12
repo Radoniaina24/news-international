@@ -60,7 +60,6 @@ export default function ArticlesPolitique() {
     setCurrentPage(1);
   }, [sortDate, category]);
   const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
-  const [search, setSearch] = useState<string>("");
   const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
   const { data, isLoading } = useGetAllPostWithTransformationResponseQuery({
     per_page: 12,

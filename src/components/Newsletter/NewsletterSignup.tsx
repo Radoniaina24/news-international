@@ -157,15 +157,7 @@ const NewsletterSignup: React.FC = () => {
                       name="consent"
                       className="mr-2 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
-                    <span>
-                      J&apos;accepte de recevoir des emails et j&apos;ai lu la{" "}
-                      <a
-                        href="/privacy"
-                        className="text-blue-600 hover:text-blue-700 underline"
-                      >
-                        politique de confidentialité
-                      </a>
-                    </span>
+                    <span>J&apos;accepte de recevoir des emails </span>
                   </div>
                   <ErrorMessage
                     name="consent"

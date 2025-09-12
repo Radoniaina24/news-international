@@ -14,6 +14,8 @@ import { Search, X, Filter, Grid, List, ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { StatCard } from "@/components/Blog/StatCard";
 import { StatCardSkeleton } from "@/components/Blog/StatCardSkeleton";
+import { usePostsByPeriod } from "@/hooks/usePostsByPeriod";
+import { getDateRangeForStrictPeriod } from "@/lib/utils/getDateRangeForPeriod";
 
 interface valueSelectInput {
   label: string;
@@ -42,6 +44,8 @@ export default function ArticlesPage() {
     value: "desc",
     label: "Plus récent",
   });
+  const { selectedPeriod, handlePeriodChange, periods } = usePostsByPeriod();
+  const dateRange = getDateRangeForStrictPeriod(selectedPeriod);
 
   const { data, isLoading, refetch } =
     useGetAllPostWithTransformationResponseQuery({
@@ -51,6 +55,8 @@ export default function ArticlesPage() {
       order: sortDate?.value,
       categories: category?.value,
       _embed: true,
+      after: dateRange.after,
+      before: dateRange.before,
       search: searchTerm || undefined,
     });
 
@@ -73,6 +79,7 @@ export default function ArticlesPage() {
     setCategories(null);
     setSortDate({ value: "desc", label: "Plus récent" });
     setCurrentPage(1);
+    handlePeriodChange("all");
   };
 
   const hasActiveFilters =
@@ -265,6 +272,29 @@ export default function ArticlesPage() {
                     }}
                   />
                 </div>
+                {/* Filtre par période */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Période
+                  </label>
+                  <div className="space-y-2">
+                    {periods.map((period) => (
+                      <label key={period.value} className="flex items-center">
+                        <input
+                          type="radio"
+                          name="period"
+                          value={period.value}
+                          checked={selectedPeriod === period.value}
+                          onChange={(e) => handlePeriodChange(e.target.value)}
+                          className="text-indigo-600"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">
+                          {period.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </aside>
@@ -313,7 +343,28 @@ export default function ArticlesPage() {
                     classNamePrefix="select"
                   />
                 </div>
-
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Période
+                  </label>
+                  <div className="space-y-2">
+                    {periods.map((period) => (
+                      <label key={period.value} className="flex items-center">
+                        <input
+                          type="radio"
+                          name="period"
+                          value={period.value}
+                          checked={selectedPeriod === period.value}
+                          onChange={(e) => handlePeriodChange(e.target.value)}
+                          className="text-indigo-600"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">
+                          {period.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
                 <div className="flex gap-2 pt-2">
                   <Button
                     onClick={handleClearFilters}
