@@ -120,3 +120,42 @@ figure img {
   object-fit: cover; /* évite la déformation */
   border-radius: 8px; /* optionnel, pour un rendu plus moderne */
 }
+
+/* Tes variables CSS globales */
+:root {
+  --gap: 12px;
+  --duration: 8s;
+}
+
+/* Définition des keyframes */
+@keyframes canopy-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+@keyframes canopy-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
+
+/* Création des classes utilitaires comme Tailwind */
+.animate-canopy-horizontal {
+  animation: canopy-x var(--duration) infinite linear;
+}
+
+.animate-canopy-vertical {
+  animation: canopy-y var(--duration) infinite linear;
+}
+
+.group:hover .animate-canopy-horizontal,
+.group:hover .animate-canopy-vertical {
+  animation-play-state: paused;
+}
