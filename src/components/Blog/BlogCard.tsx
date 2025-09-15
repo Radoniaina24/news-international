@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable */
 import React from "react";
-import { Clock, Tag, User } from "lucide-react";
+import { ArrowRight, Clock, Tag, User } from "lucide-react";
 import Image from "next/image";
 import { WPBlogPost } from "@/types/Blog";
 import { timeAgo } from "@/lib/utils/timeAgo";
@@ -177,9 +177,19 @@ const BlogCard: React.FC<BlogCardProps> = ({
             {article.title.rendered}
           </h3>
           <div className="flex items-center mt-2 text-xs text-gray-500 ">
-            <span>{formatDate(article.date)}</span>
-            <span className="mx-1">•</span>
             <span>il y a {timeAgo(article.date)}</span>
+            <div className="flex items-center ml-5  text-xs text-gray-500 ">
+              <button
+                className="text-blue-600 text-xs  hover:text-blue-800  font-medium flex items-center transition-colors group/btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavigation();
+                }}
+              >
+                Lire la suite
+                {/* <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover/btn:translate-x-1" /> */}
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -238,29 +248,41 @@ const BlogCard: React.FC<BlogCardProps> = ({
         <div className="flex items-center justify-between">
           {author && (
             <div className="flex items-center space-x-3">
-              <Image
+              {/* <Image
                 width={40}
                 height={40}
                 src={(author as any).avatar_urls?.["48"] || "/avatar.png"}
                 alt={author.name}
                 className="w-8 h-8 rounded-full"
-              />
+              /> */}
               <div>
-                <p className="text-xs font-medium text-gray-900 ">
+                {/* <p className="text-xs font-medium text-gray-900 ">
                   {author.name}
-                </p>
-                <p className="text-xs text-gray-500 ">
+                </p> */}
+                {/* <p className="text-xs text-gray-500 ">
                   {formatDate(article.date)}
-                </p>
+                </p> */}
+                <div className="flex items-center space-x-4 text-xs text-gray-500 ">
+                  <div className="flex items-center">
+                    <Clock className="w-4 h-4 mr-1" />{" "}
+                    <span>il y a {timeAgo(article.date)}</span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
-          <div className="flex items-center space-x-4 text-xs text-gray-500 ">
-            <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-1" />{" "}
-              <span>il y a {timeAgo(article.date)}</span>
-            </div>
+          <div className="flex items-center  text-xs text-gray-500 ">
+            <button
+              className="text-blue-600 text-xs  hover:text-blue-800  font-medium flex items-center transition-colors group/btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNavigation();
+              }}
+            >
+              Lire la suite
+              {/* <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover/btn:translate-x-1" /> */}
+            </button>
           </div>
         </div>
       </div>
