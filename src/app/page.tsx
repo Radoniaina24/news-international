@@ -5,6 +5,7 @@ import CategoriesSection from "@/components/Home/CategoriesSection";
 import HeroSection from "@/components/Home/HeroSection";
 
 import NewsletterSignup from "@/components/Newsletter/NewsletterSignup";
+import TeamComponent from "@/components/Team/TeamComponent";
 
 export default function Home() {
   return (
@@ -41,6 +42,7 @@ export default function Home() {
             },
           ]}
         /> */}
+        <TeamComponent />
         <NewsletterSignup />
       </main>
     </div>

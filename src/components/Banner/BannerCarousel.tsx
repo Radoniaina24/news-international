@@ -146,7 +146,7 @@ const ProfessionalBanner: React.FC = () => {
       </div>
 
       {/* Flèches */}
-      <div className="hidden md:block">
+      {/* <div className="hidden md:block">
         <button
           onClick={prevSlide}
           className="absolute top-1/2 left-2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-1.5 rounded-full backdrop-blur-sm transition hover:scale-110 z-20"
@@ -161,10 +161,10 @@ const ProfessionalBanner: React.FC = () => {
         >
           <ChevronRight size={16} className="text-black" />
         </button>
-      </div>
+      </div> */}
 
       {/* Pagination */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex space-x-1.5">
+      {/* <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex space-x-1.5">
         {advertisements.map((_, index) => (
           <button
             key={index}
@@ -177,7 +177,7 @@ const ProfessionalBanner: React.FC = () => {
             disabled={isAnimating}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
