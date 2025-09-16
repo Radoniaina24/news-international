@@ -94,7 +94,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             height={500}
             src={imageUrl}
             alt={article.title.rendered}
-            className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500"
+            className="w-full h-full object-cover  "
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 

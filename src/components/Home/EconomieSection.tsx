@@ -75,7 +75,6 @@ const EconomieSection: React.FC = () => {
                   article={post}
                   variant="featured"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
               </div>
             </div>
           ))

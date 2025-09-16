@@ -71,7 +71,6 @@ const PolitqueSection: React.FC = () => {
             <div className="lg:col-span-2 group" key={post.id}>
               <div className="relative overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl">
                 <BlogCard article={post} variant="featured" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
               </div>
             </div>
           ))
