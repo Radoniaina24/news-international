@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
             <div className="flex justify-center  lg:justify-start mb-5">
               <Image
                 src={
-                  "https://res.cloudinary.com/dnfdr35vf/image/upload/v1757224496/LOgo_avec_fond_nhokt0.jpg"
+                  "https://res.cloudinary.com/dbpoyo4gw/image/upload/v1758020780/newLogo_b3cm1s.jpg"
                 }
                 alt="logo"
                 width={250}

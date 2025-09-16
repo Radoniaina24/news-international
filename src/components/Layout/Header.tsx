@@ -72,7 +72,7 @@ const Header: React.FC = () => {
               </button>
               <Image
                 src={
-                  "https://res.cloudinary.com/dnfdr35vf/image/upload/v1757224070/log_einw4d.png"
+                  "https://res.cloudinary.com/dbpoyo4gw/image/upload/v1758020979/logo_m4cvpv.png"
                 }
                 alt="logo"
                 width={100}
