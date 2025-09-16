@@ -8,7 +8,9 @@ import Link from "next/link";
 
 const HeroSection: React.FC = () => {
   const { data, isLoading } = useGetAllPostQuery({
-    sticky: true,
+    per_page: 1,
+    orderby: "date",
+    order: "desc",
     _embed: true,
   });
   const { data: recent, isLoading: loading } = useGetAllPostQuery({
