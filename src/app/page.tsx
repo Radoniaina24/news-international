@@ -5,6 +5,7 @@ import EconomieSection from "@/components/Home/EconomieSection";
 import HeroSection from "@/components/Home/HeroSection";
 import PolitqueSection from "@/components/Home/PolitiqueSection";
 import SportSection from "@/components/Home/SportSection";
+import TourismeSection from "@/components/Home/TourismeSection";
 
 import NewsletterSignup from "@/components/Newsletter/NewsletterSignup";
 import TeamComponent from "@/components/Team/TeamComponent";
@@ -18,6 +19,7 @@ export default function Home() {
 
         <PolitqueSection />
         <EconomieSection />
+        <TourismeSection />
         <SportSection />
         {/* <AnimatedTestimonials
           data={[
