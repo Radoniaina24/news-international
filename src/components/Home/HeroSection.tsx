@@ -3,6 +3,8 @@ import { useGetAllPostQuery } from "@/redux/api/postApi";
 import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "../Blog/BlogCard";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const HeroSection: React.FC = () => {
   const { data, isLoading } = useGetAllPostQuery({
@@ -45,29 +47,6 @@ const HeroSection: React.FC = () => {
               </div>
             ))
           )}
-
-          {/* Trending Topics */}
-          {/* <div className="bg-blue-50  p-6 rounded-xl">
-            <h3 className="text-lg font-semibold text-gray-900  mb-4">
-              Sujets Tendance
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "COP28",
-                "Intelligence Artificielle",
-                "BCE",
-                "Football",
-                "Innovation",
-              ].map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-white  px-3 py-1 rounded-full text-sm text-gray-700  hover:bg-blue-100  cursor-pointer transition-colors"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </div> */}
         </div>
       </div>
     </section>

@@ -151,8 +151,8 @@ const BlogCard: React.FC<BlogCardProps> = ({
       >
         <div className="w-24 h-24 flex-shrink-0">
           <Image
-            width={100}
-            height={100}
+            width={400}
+            height={400}
             src={imageUrl}
             alt={article.title.rendered}
             className="w-full h-full object-cover rounded-lg transition-transform group-hover:scale-105 duration-300"
@@ -160,12 +160,23 @@ const BlogCard: React.FC<BlogCardProps> = ({
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center mb-1">
-            {categories.length > 0 && (
-              <div className="flex lowercase flex-wrap items-center gap-2 mb-2">
+            {category ? (
+              <div className="flex items-center ">
+                <span
+                  className={cn(
+                    "px-3 py-1 rounded-full text-xs font-medium",
+                    getCategoryColor(category)
+                  )}
+                >
+                  {category}
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <span
                     key={cat.link}
-                    className="text-sm text-white  bg-green-500  px-2 py-0.5 rounded"
+                    className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-blue-600 text-white"
                   >
                     {cat.name}
                   </span>
