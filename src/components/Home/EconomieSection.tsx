@@ -86,7 +86,7 @@ const EconomieSection: React.FC = () => {
           <div className="flex items-center space-x-2 pb-2 border-b border-gray-200 dark:border-gray-700">
             <LineChart className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              Autres ctualités économiques
+              Autres actualités économiques
             </h2>
           </div>
 
