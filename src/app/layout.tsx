@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import { ReduxProvider } from "@/redux/provider";
-import ProfessionalBanner from "@/components/Banner/BannerCarousel";
+import AnimatedInstitutions from "@/components/Blog/AnimatedBlog";
 
 const inter = Montserrat({
   subsets: ["latin"],
@@ -22,11 +22,50 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const advertisement = [
+    {
+      id: 1,
+      title: "E-media Madagascar",
+      description:
+        "E-Media propose des Licences et Masters en TIC, Communication, Marketing Digital, Journalisme, Management et Droit (100 % en ligne).",
+      buttonText: "Découvrir",
+      image:
+        "https://res.cloudinary.com/dbpoyo4gw/image/upload/v1747222338/logoEmedia_ookb0v.jpg",
+      backgroundColor: "linear-gradient(to right, #2563eb, #7c3aed)",
+      textColor: "text-white",
+      link: "https://e-mediauniversity.io/",
+    },
+    {
+      id: 2,
+      title: "Carrefour de l'Emploi et des études",
+      description:
+        "Le Carrefour de l'Emploi – Madagascar 2025 aura lieu au Carlton Madagascar, un hôtel 5 étoiles au cœur d'Antananarivo.",
+      buttonText: "Consulter",
+      image:
+        "https://res.cloudinary.com/dikefxjpd/image/upload/v1753865346/logo_m3t5cg.jpg",
+      backgroundColor: "linear-gradient(to right, #10b981, #0d9488)",
+      textColor: "text-white",
+      link: "https://carrefour-emploi-etudes.com/",
+    },
+    {
+      id: 3,
+      title: "E-media FM",
+      description:
+        "Écoutez vos émissions préférées et profitez de contenus éducatifs de qualité. E-media FM : la radio économique et éducative numéro 1 à Madagascar.",
+      buttonText: "Découvrir",
+      image:
+        "https://res.cloudinary.com/dbpoyo4gw/image/upload/v1747805711/radio_tfde71.jpg",
+      backgroundColor: "linear-gradient(to right, #f97316, #dc2626)",
+      textColor: "text-white",
+      link: "https://www.facebook.com/people/E-media-FM-1078/61550542922049/",
+    },
+  ];
+
   return (
     <html lang="en">
       <body className={` ${inter.className}`}>
         <ReduxProvider>
-          <ProfessionalBanner />
+          <AnimatedInstitutions data={advertisement} />
           <Header />
           {children}
           <Footer />

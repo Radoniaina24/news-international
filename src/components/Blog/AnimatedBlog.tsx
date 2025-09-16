@@ -1,12 +1,27 @@
-import { cn2 } from "@/lib/utils/classNames";
+"use client";
+import { cn, cn2 } from "@/lib/utils/classNames";
+import Image from "next/image";
 
-interface Testimonial {
-  name: string;
-  image: string;
+interface InstitutionCardData {
+  id: number;
+  title: string;
   description: string;
-  handle: string;
+  buttonText: string;
+  image: string;
+  backgroundColor: string; // ex: linear-gradient ou hex
+  textColor: string; // ex: text-white
+  link: string;
 }
-
+interface Institution {
+  id: number;
+  title: string;
+  description: string;
+  buttonText: string;
+  image: string;
+  backgroundColor: string;
+  textColor: string;
+  link: string;
+}
 interface AnimatedCanopyProps extends React.HTMLAttributes<HTMLDivElement> {
   vertical?: boolean;
   repeat?: number;
@@ -57,73 +72,78 @@ const AnimatedCanopy = ({
   </div>
 );
 
-const TestimonialCard = ({
-  testimonial,
-  className,
+export const InstitutionCard = ({
+  institution,
 }: {
-  testimonial: Testimonial;
-  className?: string;
-}) => (
-  <div
-    className={cn2(
-      "group mx-2 flex h-32 w-80 shrink-0 cursor-pointer overflow-hidden rounded-xl border border-transparent p-3 transition-all hover:border-blue-400 hover:shadow-[0_0_10px_#60a5fa] dark:hover:border-blue-400",
-      className
-    )}
-  >
-    <div className="flex items-start gap-3">
-      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-gray-200 dark:border-gray-600">
-        <img
-          src={testimonial.image}
-          alt={testimonial.name}
-          className="h-full w-full not-prose object-cover"
+  institution: Institution;
+}) => {
+  const handleNavigation = (link: string) => {
+    window.open(link, "_blank");
+  };
+
+  return (
+    <div className="flex max-w-xl  space-x-4 group cursor-pointer rounded-xl shadow-sm hover:shadow-md border border-gray-100 p-3 transition-all duration-300">
+      {/* Image institution */}
+      <div className="w-28 h-28 flex-shrink-0 overflow-hidden rounded-lg">
+        <Image
+          width={400}
+          height={400}
+          src={institution.image}
+          alt={institution.title}
+          className="w-full h-full object-cover rounded-lg transition-transform group-hover:scale-105 duration-300"
         />
       </div>
-      <div className="flex-1">
-        <div className="flex items-baseline gap-2">
-          <span className="text-sm font-bold text-foreground">
-            {testimonial.name}
-          </span>
-          <span className="text-xs text-muted-foreground">
-            {testimonial.handle}
-          </span>
-        </div>
-        <p className="mt-1 line-clamp-3 text-sm text-foreground">
-          {testimonial.description}
+
+      {/* Contenu */}
+      <div className="flex-1 min-w-0">
+        <h3
+          className={cn(
+            "font-semibold text-black line-clamp-2 group-hover:underline transition-colors text-lg"
+          )}
+        >
+          {institution.title}
+        </h3>
+
+        <p className={cn("mt-1 text-sm line-clamp-3 text-black")}>
+          {institution.description}
         </p>
+
+        {/* Bouton */}
+        <div className="flex items-center mt-3">
+          <button
+            className={cn(
+              "px-3 py-1 text-xs font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 transition-colors"
+            )}
+            onClick={() => handleNavigation(institution.link)}
+          >
+            {institution.buttonText}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-export const AnimatedTestimonials = ({
+const AnimatedInstitutions = ({
   data,
   className,
-  cardClassName,
 }: {
-  data: Testimonial[];
+  data: InstitutionCardData[];
   className?: string;
   cardClassName?: string;
 }) => (
-  <div
-    className={cn2(
-      "w-full overflow-x-hidden py-4 max-w-7xl mx-auto",
-      className
-    )}
-  >
+  <div className={cn2("w-full overflow-x-hidden", className)}>
     <AnimatedCanopy
-      reverse={false} // tu peux mettre true si tu veux inverser
+      reverse={false}
       className="[--duration:25s]"
       pauseOnHover
       applyMask={false}
-      repeat={3} // nombre de répétitions horizontales
+      repeat={3}
     >
-      {data.map((testimonial) => (
-        <TestimonialCard
-          key={testimonial.name}
-          testimonial={testimonial}
-          className={cardClassName}
-        />
+      {data.map((institution) => (
+        <InstitutionCard key={institution.id} institution={institution} />
       ))}
     </AnimatedCanopy>
   </div>
 );
+export default AnimatedInstitutions;
