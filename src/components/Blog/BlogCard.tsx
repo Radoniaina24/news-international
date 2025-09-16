@@ -99,20 +99,29 @@ const BlogCard: React.FC<BlogCardProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
           <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 text-white">
-            <div className="flex lowercase flex-wrap items-center gap-2 mb-3">
-              {categories.map((cat) => (
-                <span
-                  key={cat.link}
-                  className="inline-block px-3 py-1 text-sm font-medium rounded-full bg-blue-600 text-white"
-                >
-                  {cat.name}
-                </span>
-              ))}
-
-              {"sticky" in article && (article as any).sticky && (
-                <span className="bg-red-600 text-white px-2 py-1 text-xs rounded-full">
-                  Tendance
-                </span>
+            <div className="flex items-center mb-1">
+              {category ? (
+                <div className="flex items-center ">
+                  <span
+                    className={cn(
+                      "px-3 py-1 rounded-full text-xs font-medium",
+                      getCategoryColor(category)
+                    )}
+                  >
+                    {category}
+                  </span>
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((cat) => (
+                    <span
+                      key={cat.link}
+                      className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-blue-600 text-white"
+                    >
+                      {cat.name}
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
             <h2
