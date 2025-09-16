@@ -1,5 +1,4 @@
 "use client";
-import BannerCarousel from "@/components/Banner/BannerCarousel";
 
 import CategoriesSection from "@/components/Home/CategoriesSection";
 import EconomieSection from "@/components/Home/EconomieSection";
@@ -14,7 +13,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50  transition-colors">
       <main>
-        <BannerCarousel />
         <HeroSection />
         <CategoriesSection />
 

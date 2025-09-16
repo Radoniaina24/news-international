@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import { ReduxProvider } from "@/redux/provider";
+import ProfessionalBanner from "@/components/Banner/BannerCarousel";
 
 const inter = Montserrat({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={` ${inter.className}`}>
         <ReduxProvider>
+          <ProfessionalBanner />
           <Header />
           {children}
           <Footer />
