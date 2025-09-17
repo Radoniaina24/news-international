@@ -14,7 +14,7 @@ const HeroSection: React.FC = () => {
     _embed: true,
   });
   const { data: recent, isLoading: loading } = useGetAllPostQuery({
-    per_page: 1,
+    per_page: 4,
     orderby: "date",
     order: "desc",
     _embed: true,
@@ -39,11 +39,15 @@ const HeroSection: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-900 ">À la Une</h2>
 
           {loading ? (
-            <div className="lg:col-span-2">
-              <BlogCardSkeleton variant="compact" />
-            </div>
+            <>
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="lg:col-span-2">
+                  <BlogCardSkeleton variant="compact" />
+                </div>
+              ))}
+            </>
           ) : (
-            recent?.map((post: WPBlogPost) => (
+            recent?.slice(1, 4).map((post: WPBlogPost) => (
               <div className="lg:col-span-2" key={post.id}>
                 <BlogCard article={post} variant="compact" />
               </div>
