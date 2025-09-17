@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       "flagcdn.com",
       "gateofafrica.com",
       "secure.gravatar.com",
+      "data.gateofafrica.com",
     ],
     remotePatterns: [
       {
