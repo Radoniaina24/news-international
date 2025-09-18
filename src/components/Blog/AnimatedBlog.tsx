@@ -98,7 +98,7 @@ export const InstitutionCard = ({
       <div className="flex-1 min-w-0">
         <h3
           className={cn(
-            "font-medium text-black line-clamp-1 group-hover:underline transition-colors text-sm"
+            "font-medium text-black line-clamp-1  transition-colors text-sm"
           )}
         >
           {institution.title}
