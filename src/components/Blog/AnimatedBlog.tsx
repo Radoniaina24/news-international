@@ -8,8 +8,8 @@ interface InstitutionCardData {
   description: string;
   buttonText: string;
   image: string;
-  backgroundColor: string; // ex: linear-gradient ou hex
-  textColor: string; // ex: text-white
+  backgroundColor: string;
+  textColor: string;
   link: string;
 }
 interface Institution {
@@ -64,7 +64,7 @@ const AnimatedCanopy = ({
     {applyMask && (
       <div
         className={cn2(
-          "pointer-events-none absolute inset-0 z-10 h-full w-full from-white/50 from-5% via-transparent via-50% to-white/50 to-95% dark:from-gray-800/50 dark:via-transparent dark:to-gray-800/50",
+          "pointer-events-none absolute inset-0 z-10 h-full w-full from-white/40 via-transparent to-white/40 dark:from-gray-800/40 dark:to-gray-800/40",
           vertical ? "bg-gradient-to-b" : "bg-gradient-to-r"
         )}
       />
@@ -82,15 +82,15 @@ export const InstitutionCard = ({
   };
 
   return (
-    <div className="flex max-w-xl  space-x-4 group cursor-pointer rounded-xl shadow-sm hover:shadow-md border border-gray-100 p-3 transition-all duration-300">
+    <div className="flex max-w-sm items-center space-x-2 group cursor-pointer rounded-md shadow-sm hover:shadow-md border border-gray-100 p-2 transition-all duration-300">
       {/* Image institution */}
-      <div className="w-28 h-28 flex-shrink-0 overflow-hidden rounded-lg">
+      <div className="w-16 h-12 flex-shrink-0 overflow-hidden rounded-md">
         <Image
-          width={400}
-          height={400}
+          width={160}
+          height={120}
           src={institution.image}
           alt={institution.title}
-          className="w-full h-full object-cover rounded-lg transition-transform group-hover:scale-105 duration-300"
+          className="w-full h-full object-cover rounded-md transition-transform group-hover:scale-105 duration-300"
         />
       </div>
 
@@ -98,27 +98,22 @@ export const InstitutionCard = ({
       <div className="flex-1 min-w-0">
         <h3
           className={cn(
-            "font-semibold text-black line-clamp-2 group-hover:underline transition-colors text-lg"
+            "font-medium text-black line-clamp-1 group-hover:underline transition-colors text-sm"
           )}
         >
           {institution.title}
         </h3>
 
-        <p className={cn("mt-1 text-sm line-clamp-3 text-black")}>
+        <p className="mt-0.5 text-xs line-clamp-1 text-gray-600">
           {institution.description}
         </p>
 
-        {/* Bouton */}
-        <div className="flex items-center mt-3">
-          <button
-            className={cn(
-              "px-3 py-1 text-xs font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 transition-colors"
-            )}
-            onClick={() => handleNavigation(institution.link)}
-          >
-            {institution.buttonText}
-          </button>
-        </div>
+        <button
+          className="mt-1 px-2 py-0.5 text-[10px] font-medium rounded bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+          onClick={() => handleNavigation(institution.link)}
+        >
+          {institution.buttonText}
+        </button>
       </div>
     </div>
   );
@@ -130,7 +125,6 @@ const AnimatedInstitutions = ({
 }: {
   data: InstitutionCardData[];
   className?: string;
-  cardClassName?: string;
 }) => (
   <div className={cn2("w-full overflow-x-hidden", className)}>
     <AnimatedCanopy
@@ -146,4 +140,5 @@ const AnimatedInstitutions = ({
     </AnimatedCanopy>
   </div>
 );
+
 export default AnimatedInstitutions;
