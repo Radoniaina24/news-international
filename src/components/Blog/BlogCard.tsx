@@ -94,7 +94,8 @@ const BlogCard: React.FC<BlogCardProps> = ({
             height={500}
             src={imageUrl}
             alt={article.title.rendered}
-            className="w-full h-full object-cover  "
+            className="w-full h-full object-cover"
+            unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
@@ -165,6 +166,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             src={imageUrl}
             alt={article.title.rendered}
             className="w-full h-full object-cover rounded-lg transition-transform group-hover:scale-105 duration-300"
+            unoptimized
           />
         </div>
         <div className="flex-1 min-w-0">
@@ -228,6 +230,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           src={imageUrl}
           alt={article.title.rendered}
           className="w-full h-48 object-cover transition-transform group-hover:scale-105 duration-300"
+          unoptimized
         />
         <div className="absolute top-2 right-2 flex items-center space-x-2">
           <div className="flex items-center mb-1">
