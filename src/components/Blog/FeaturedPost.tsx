@@ -100,6 +100,7 @@ export function FeaturedPost({ data, category = "Politique" }: any) {
               width={400}
               height={400}
               className="object-cover w-full h-full"
+              unoptimized
             />
           </div>
         </div>
