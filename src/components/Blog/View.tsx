@@ -94,6 +94,7 @@ const BlogView: React.FC<BlogViewProps> = ({ article }) => {
               height={600}
               src={imageUrl}
               alt={article.title.rendered}
+              unoptimized
               className="w-full h-full object-contain"
               priority
               placeholder="blur"
