@@ -56,8 +56,8 @@ const CategoriesSection: React.FC = () => {
                       <p className="font-medium text-gray-900  group-hover:text-blue-600  transition-colors">
                         {category.name}
                       </p>
-                      <p className="text-sm text-gray-500 ">
-                        {category.count} articles
+                      <p className="text-sm text-gray-500">
+                        {category.count} article{category.count > 1 ? "s" : ""}
                       </p>
                     </div>
                   </div>

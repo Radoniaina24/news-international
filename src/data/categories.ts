@@ -19,27 +19,29 @@ export const categories: Category[] = [
   },
   {
     id: "3",
+    name: "Culture",
+    slug: "culture",
+    description: "Arts, spectacles et patrimoine culturel",
+    color: "#DB2777",
+    icon: "Palette",
+  },
+
+  {
+    id: "4",
     name: "Sport",
     slug: "sport",
     description: "Actualités sportives du monde entier",
     color: "#EA580C",
     icon: "Trophy",
   },
+
   {
-    id: "4",
+    id: "5",
     name: "Technologie",
     slug: "technologie",
     description: "Innovation, startups et nouvelles technologies",
     color: "#7C3AED",
     icon: "Smartphone",
-  },
-  {
-    id: "5",
-    name: "Culture",
-    slug: "culture",
-    description: "Arts, spectacles et patrimoine culturel",
-    color: "#DB2777",
-    icon: "Palette",
   },
   {
     id: "6",

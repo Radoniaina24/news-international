@@ -1,6 +1,7 @@
 "use client";
 
 import CategoriesSection from "@/components/Home/CategoriesSection";
+import CultureSection from "@/components/Home/CultureSection";
 import EconomieSection from "@/components/Home/EconomieSection";
 import HeroSection from "@/components/Home/HeroSection";
 import PolitqueSection from "@/components/Home/PolitiqueSection";
@@ -16,8 +17,9 @@ export default function Home() {
         <CategoriesSection />
         <PolitqueSection />
         <EconomieSection />
-        <TourismeSection />
-        <SportSection />
+        <CultureSection />
+        {/* <TourismeSection />
+        <SportSection /> */}
         <TeamComponent />
         <NewsletterSignup />
       </main>

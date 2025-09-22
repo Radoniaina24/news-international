@@ -43,7 +43,7 @@ const PolitqueSection: React.FC = () => {
           href="/category/politique"
           className="hidden md:flex items-center text-sm bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition-all duration-300 group shadow-md hover:shadow-lg"
         >
-          Voir tout
+          Toute la politique
           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
@@ -54,7 +54,7 @@ const PolitqueSection: React.FC = () => {
           href="/category/politique"
           className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors group"
         >
-          Voir tout
+          Toute la politique
           <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
