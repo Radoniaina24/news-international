@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable */
-import React from "react";
+import React, { useState } from "react";
 import { ArrowRight, Clock, Tag, User } from "lucide-react";
 import Image from "next/image";
 import { WPBlogPost } from "@/types/Blog";
@@ -62,17 +62,17 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
   const imageUrl =
     article.blog_post_layout_featured_media_urls.full?.[0] ||
-    "/placeholder.jpg";
-
-  // ✅ Auteur
+    "https://via.assets.so/img.jpg?w=800&h=500&bg=e5e7eb&text=image&fontSize=0&fontColor=6b7280&f=png";
+  console.log(imageUrl);
+  // Auteur
   const author = article._embedded?.author?.[0];
 
-  // ✅ Catégorie (d'après ton WPBlogPost : categories_names)
+  // Catégorie (d'après ton WPBlogPost : categories_names)
   const categories = article.categories
     .map((id) => article.categories_names?.[id])
     .filter((c): c is NonNullable<typeof c> => Boolean(c));
 
-  // ✅ Extrait texte brut
+  // Extrait texte brut
   const excerpt = article.excerpt.rendered.replace(/<[^>]+>/g, "");
 
   // const readingTime = (content: string) => {
@@ -89,11 +89,19 @@ const BlogCard: React.FC<BlogCardProps> = ({
         onClick={handleNavigation}
       >
         <div className="relative h-96 lg:h-[500px] overflow-hidden rounded-xl">
-          <Image
+          {/* <Image
             width={800}
             height={500}
+            src={imgSrc}
+            alt={article.title.rendered}
+            className="w-full h-full object-cover"
+            unoptimized
+          /> */}
+          <Image
             src={imageUrl}
             alt={article.title.rendered}
+            width={800}
+            height={500}
             className="w-full h-full object-cover"
             unoptimized
           />
