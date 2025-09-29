@@ -280,7 +280,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      <SponsorBanner />
+      {/* <SponsorBanner /> */}
     </>
   );
 };
