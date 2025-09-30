@@ -1,11 +1,6 @@
 import { RootState } from "../store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-interface Student {
-  photo: {
-    url: string;
-  };
-  studyPeriod: string; // Exemple : "Licence 2"
-}
+
 interface User {
   _id: string;
   lastName: string;

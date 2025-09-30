@@ -3,8 +3,6 @@ import { useGetAllPostQuery } from "@/redux/api/postApi";
 import { WPBlogPost } from "@/types/Blog";
 import BlogCard from "../Blog/BlogCard";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 
 const HeroSection: React.FC = () => {
   const { data, isLoading } = useGetAllPostQuery({

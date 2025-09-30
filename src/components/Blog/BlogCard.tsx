@@ -63,7 +63,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   const imageUrl =
     article.blog_post_layout_featured_media_urls.full?.[0] ||
     "https://via.assets.so/img.jpg?w=800&h=500&bg=e5e7eb&text=image&fontSize=0&fontColor=6b7280&f=png";
-  console.log(imageUrl);
+  // console.log(imageUrl);
   // Auteur
   const author = article._embedded?.author?.[0];
 

@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+/* eslint-disable */
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+}
 export const categoriesAPI = createApi({
   reducerPath: "categoriesAPI",
   tagTypes: ["posts"],
@@ -19,7 +25,19 @@ export const categoriesAPI = createApi({
       },
       providesTags: ["posts"],
     }),
+    getCategories: builder.query<string[], void>({
+      query: () => "/categories-name",
+      transformResponse: (response: Category[]): string[] =>
+        response.map((cat) => cat.name),
+    }),
+    getCategoryById: builder.query<any, number>({
+      query: (id) => `categories/${id}`,
+    }),
   }),
 });
 
-export const { useGetAllCategoriesQuery } = categoriesAPI;
+export const {
+  useGetAllCategoriesQuery,
+  useGetCategoriesQuery,
+  useGetCategoryByIdQuery,
+} = categoriesAPI;

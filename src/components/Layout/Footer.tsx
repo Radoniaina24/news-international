@@ -30,13 +30,6 @@ const companyLinks = [
   // { href: "/advertise", label: "Publicité" },
 ];
 
-const legalLinks = [
-  { href: "/privacy", label: "Confidentialité" },
-  { href: "/terms", label: "Conditions" },
-  { href: "/cookies", label: "Cookies" },
-  { href: "/legal", label: "Mentions légales" },
-];
-
 // 🧩 Composant lien réutilisable
 const FooterLink: React.FC<{ href: string; label: string }> = ({
   href,

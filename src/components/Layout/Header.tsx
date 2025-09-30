@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, X, Search, User, Bell, ChevronDown } from "lucide-react";
+import { Menu, X, Search, ChevronDown } from "lucide-react";
 import { categories } from "../../data/categories";
-import SponsorBanner from "./SponsorBanner";
+
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";

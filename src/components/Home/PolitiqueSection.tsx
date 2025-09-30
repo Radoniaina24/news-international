@@ -2,7 +2,7 @@ import {
   useGetAllPostQuery,
   useGetAllPostWithTransformationResponseQuery,
 } from "@/redux/api/postApi";
-import { ArrowRight, TrendingUp, Shield, Globe } from "lucide-react";
+import { ArrowRight, Globe } from "lucide-react";
 import Link from "next/link";
 import BlogCardSkeleton from "../Blog/BlogCardSkeleton";
 import { WPBlogPost } from "@/types/Blog";

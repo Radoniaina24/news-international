@@ -68,6 +68,9 @@ export const postAPI = createApi({
     getPostBySlug: builder.query<any, string>({
       query: (slug) => `posts?slug=${slug}`,
     }),
+    getPostByCategory: builder.query<any, number>({
+      query: (id) => `posts?categories=${id}`,
+    }),
   }),
 });
 
@@ -76,4 +79,5 @@ export const {
   useGetAllPostWithTransformationResponseQuery,
   useGetOneRecentPostQuery,
   useGetPostBySlugQuery,
+  useGetPostByCategoryQuery,
 } = postAPI;
