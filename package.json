@@ -22,7 +22,7 @@
     "i": "^0.3.7",
     "isomorphic-dompurify": "^2.26.0",
     "lucide-react": "^0.542.0",
-    "next": "15.5.2",
+    "next": "15.5.9",
     "next-intl": "^4.3.7",
     "nodemailer": "^7.0.6",
     "npm": "^11.6.0",
